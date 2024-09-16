@@ -5,8 +5,6 @@ description: "A new Flutter project."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
-# A version number is three numbers separated by dots, like 1.2.43
-# followed by an optional build number separated by a +.
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # In Android, build-name is used as versionName while build-number used as versionCode.
@@ -58,22 +56,22 @@ dependencies:
   url_launcher_ios: ^6.3.1
   url_launcher_platform_interface: 2.3.2
   screen_capturer: ^0.2.2
-  minio:
-    git:
-      url: https://github.com/SatanaKonst/minio-dart.git
+#  minio:
+#    git:
+#      url: https://github.com/SatanaKonst/minio-dart.git
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
-  flutterflow_ui: ^0.3.1
+#  flutterflow_ui: ^0.3.1
   intl: ^0.19.0
   pasteboard: ^0.2.0
   pro_image_editor: ^4.2.7
   hotkey_manager: ^0.2.3
   file_picker: ^8.0.6
   tray_manager: ^0.2.3
-  window_manager: ^0.3.9
+  window_manager: ^0.4.2
 
 dev_dependencies:
   lints: 4.0.0

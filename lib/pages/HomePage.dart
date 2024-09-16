@@ -1,7 +1,10 @@
 import 'dart:io';
 
+// import 'flutter_flow_model.dart' as model;
+import '/models/flutter_flow_model.dart' as model;
 import 'package:flutter/services.dart';
-import 'package:flutterflow_ui/flutterflow_ui.dart';
+
+// import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:screen_capturer/screen_capturer.dart';
@@ -19,6 +22,7 @@ import 'package:tray_manager/tray_manager.dart';
 import 'package:window_manager/window_manager.dart';
 
 import '../models/homepage_model.dart';
+import 'flutter_flow_button.dart';
 export '../models/homepage_model.dart';
 
 class HomePageWidget extends StatefulWidget {
@@ -41,12 +45,18 @@ class _HomePageWidgetState extends State<HomePageWidget>
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => HomePageModel());
+    _model = model.createModel(context, () => HomePageModel());
+
     _settingsStorage = Settingstorage();
+
     _settingsStorage.loadSettings();
+
     registerHotKeys();
+
     trayManager.addListener(this);
+
     windowManager.addListener(this);
+
 
     initTray();
     _init();
@@ -296,12 +306,20 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
     String imagePath =
         '${settings.Settings.saveDirectoryPath}/${Settingstorage.ImageName}';
+        // '${settings.Settings.saveDirectoryPath}/Screenshot-1726466762983.png';
+    //
+    //  File? file1 = File(imagePath);
+    //
+    // // Создаем директорию, если она не существует
+    // await file1.create(recursive: true);
+    //
+    // file1 = null;
 
     _lastCapturedData = await screenCapturer.capture(
       mode: mode,
       imagePath: imagePath,
       copyToClipboard: true,
-      silent: true,
+      silent: false,
     );
 
     if (_lastCapturedData != null) {
@@ -363,7 +381,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
               File file = File(imagePath);
               Uint8List? bytes = await editor.captureEditorImage();
               file.writeAsBytesSync(bytes);
-              await uploadToS3(Settingstorage.ImageName, imagePath);
+              // await uploadToS3(Settingstorage.ImageName, imagePath);
             }
           },
         ),
@@ -417,7 +435,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
               File file = File(imagePath);
               Uint8List? bytes = await editor.captureEditorImage();
               file.writeAsBytesSync(bytes);
-              await uploadToS3(Settingstorage.ImageName, imagePath);
+              // await uploadToS3(Settingstorage.ImageName, imagePath);
             }
             editor.doneEditing();
           },
