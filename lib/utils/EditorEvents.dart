@@ -5,6 +5,8 @@ import 'dart:ui' as ui;
 // Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:minio/io.dart';
+import 'package:minio/minio.dart';
 // import 'package:minio/io.dart';
 // import 'package:minio/minio.dart';
 

@@ -381,7 +381,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
               File file = File(imagePath);
               Uint8List? bytes = await editor.captureEditorImage();
               file.writeAsBytesSync(bytes);
-              // await uploadToS3(Settingstorage.ImageName, imagePath);
+              await uploadToS3(Settingstorage.ImageName, imagePath);
             }
           },
         ),
@@ -435,7 +435,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
               File file = File(imagePath);
               Uint8List? bytes = await editor.captureEditorImage();
               file.writeAsBytesSync(bytes);
-              // await uploadToS3(Settingstorage.ImageName, imagePath);
+              await uploadToS3(Settingstorage.ImageName, imagePath);
             }
             editor.doneEditing();
           },
