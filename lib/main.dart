@@ -1,4 +1,4 @@
-import 'package:bq_screenshot/pages/HomePage.dart';
+import '/pages/HomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:hotkey_manager/hotkey_manager.dart';
 import 'package:window_manager/window_manager.dart';

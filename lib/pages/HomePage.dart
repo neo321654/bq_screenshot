@@ -12,10 +12,10 @@ import 'package:pasteboard/pasteboard.dart';
 import 'package:pro_image_editor/pro_image_editor.dart';
 import 'package:hotkey_manager/hotkey_manager.dart';
 
-import 'package:bq_screenshot/pages/Settings.dart';
-import 'package:bq_screenshot/utils/ColorsUtil.dart';
-import 'package:bq_screenshot/utils/SettingsStorage.dart';
-import 'package:bq_screenshot/utils/EditorEvents.dart';
+import '/pages/Settings.dart';
+import '/utils/ColorsUtil.dart';
+import '/utils/SettingsStorage.dart';
+import '/utils/EditorEvents.dart';
 
 import 'package:flutter/material.dart' hide MenuItem;
 import 'package:tray_manager/tray_manager.dart';

@@ -1,5 +1,5 @@
-import 'package:bq_screenshot/utils/ColorsUtil.dart';
-import 'package:bq_screenshot/utils/SettingsStorage.dart';
+import '/utils/ColorsUtil.dart';
+import '/utils/SettingsStorage.dart';
 // import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
