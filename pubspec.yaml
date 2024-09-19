@@ -85,11 +85,17 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^4.0.0
+  inno_bundle: ^0.7.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
+
+inno_bundle:
+  id: c79198c0-764a-11ef-bdd7-75bb7c940359
+  publisher: Victor
+
 flutter:
 
   # The following line ensures that the Material Icons font is
