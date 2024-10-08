@@ -52,7 +52,7 @@ void main() async {
 
   if (await FlutterSingleInstance.platform.isFirstInstance()) {
     runApp(MyApp());
-  } else {x
+  } else {
     print("App is already running");
 
     exit(0);
