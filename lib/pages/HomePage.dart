@@ -79,8 +79,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
   void initTray() async {
     await trayManager.setIcon(
       Platform.isWindows
-          ? 'images/tray_icon_original.ico'
-          : 'images/tray_icon_original.png',
+          ? 'images/tray_icon.ico'
+          : 'images/tray_icon.png',
     );
 
     Menu menu = Menu(items: [
@@ -463,7 +463,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
         windowManager.show();
         break;
       case 'window_hide':
-        windowManager.hide();
+        windowManager.minimize();
         break;
       case 'capture_area':
         _handleClickCapture(CaptureMode.region);
