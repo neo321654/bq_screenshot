@@ -158,7 +158,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
           : FocusScope.of(context).unfocus(),
       child: TalkerWrapper(
         talker: talker,
-        options: const TalkerWrapperOptions(
+        options:  TalkerWrapperOptions(
           enableErrorAlerts: true,
         ),
         child: Scaffold(

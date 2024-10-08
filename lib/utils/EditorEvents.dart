@@ -98,7 +98,7 @@ mixin EditorEventsState<T extends StatefulWidget> on State<T> {
 
 }
 
-Future<void> checkS3Connection() async {
+Future<String?> checkS3Connection() async {
   Settingstorage _settings = await Settingstorage().loadSettings();
 
   if (_settings.Settings.s3_endPoint.isNotEmpty &&
@@ -121,5 +121,6 @@ Future<void> checkS3Connection() async {
     // }
 
     talker.debug("listBuckets = $listBuckets");
+    return listBuckets.toString();
   }
 }
