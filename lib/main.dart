@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:ui';
 // import 'dart:io';
 
 //import 'package:bq_screenshot/menu.dart';
@@ -33,10 +34,24 @@ final talker = TalkerFlutter.init();
 void main() async {
   checkDateReturn();
 
-  runZonedGuarded(() async {
-    FlutterError.onError = (FlutterErrorDetails details) {
-      talker.error('Caught a Flutter error: ${details.exception}');
-    };
+
+  PlatformDispatcher.instance.onError = (error, stack) {
+    talker.handle(error,stack);
+    return true;
+  };
+
+
+  FlutterError.onError = (details) {
+    FlutterError.presentError(details);
+    talker.handle(details);
+    talker.error('Caught a Flutter error: ${details.exception}');
+  };
+
+
+  // runZonedGuarded(() async {
+
+
+
 
     WidgetsFlutterBinding.ensureInitialized();
 
@@ -56,13 +71,12 @@ void main() async {
       await windowManager.focus();
     });
 
-    runApp(TalkerWrapper(
-        talker: talker,
-        options: const TalkerWrapperOptions(
-          enableErrorAlerts: true,
-        ),
-        child: MyApp()));
-  }, (error, stackTrace) {
+    runApp(MyApp());
+
+  runZonedGuarded(() async {  }, (error, stackTrace) {
+
+    talker.handle(error,stackTrace);
+    talker.debug(stackTrace);
     talker.error('Caught an error in zone: $error');
   });
 }
@@ -90,6 +104,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     // initSystemTray();
   }
+
 
   @override
   void dispose() {
@@ -286,6 +301,9 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+
+    // createHighlightOverlay(alignment: AlignmentDirectional.center,borderColor: Colors.red);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'BqScreenshot',

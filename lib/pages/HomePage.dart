@@ -156,150 +156,163 @@ class _HomePageWidgetState extends State<HomePageWidget>
       onTap: () => _model.unfocusNode.canRequestFocus
           ? FocusScope.of(context).requestFocus(_model.unfocusNode)
           : FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        key: scaffoldKey,
-        backgroundColor: ColorsUtil.secondaryBackground,
-        appBar: AppBar(
-          backgroundColor: ColorsUtil.primary,
-          automaticallyImplyLeading: false,
-          title: Text(
-            'BqScreenshot',
-            style: TextStyle(
-              fontFamily: 'Outfit',
-              color: Colors.white,
-              fontSize: 22,
-              letterSpacing: 0,
+      child: TalkerWrapper(
+        talker: talker,
+        options: const TalkerWrapperOptions(
+          enableErrorAlerts: true,
+        ),
+        child: Scaffold(
+          key: scaffoldKey,
+          backgroundColor: ColorsUtil.secondaryBackground,
+          appBar: AppBar(
+            backgroundColor: ColorsUtil.primary,
+            automaticallyImplyLeading: false,
+            title: Text(
+              'BqScreenshot',
+              style: TextStyle(
+                fontFamily: 'Outfit',
+                color: Colors.white,
+                fontSize: 22,
+                letterSpacing: 0,
+              ),
             ),
+            actions: [
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
+                child: FFButtonWidget(
+                  onPressed: () {
+
+                    // throw 'dffd';
+                   _handleClickCapture(CaptureMode.region);
+                  },
+                  text: 'Область',
+                  icon: Icon(
+                    Icons.crop,
+                    size: 15,
+                  ),
+                  options: FFButtonOptions(
+                    height: 40,
+                    padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                    iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                    color: ColorsUtil.success,
+                    textStyle: TextStyle(
+                      fontFamily: 'Readex Pro',
+                      color: Colors.white,
+                      letterSpacing: 0,
+                    ),
+                    elevation: 3,
+                    borderSide: BorderSide(
+                      color: Colors.transparent,
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
+                child: FFButtonWidget(
+                  onPressed: () {
+                    _handleClickCapture(CaptureMode.window);
+                  },
+                  text: 'Окно',
+                  icon: Icon(
+                    Icons.window,
+                    size: 15,
+                  ),
+                  options: FFButtonOptions(
+                    height: 40,
+                    padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                    iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                    color: ColorsUtil.success,
+                    textStyle: TextStyle(
+                      fontFamily: 'Readex Pro',
+                      color: Colors.white,
+                      letterSpacing: 0,
+                    ),
+                    elevation: 3,
+                    borderSide: BorderSide(
+                      color: Colors.transparent,
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
+                child: FFButtonWidget(
+                  onPressed: () {
+                    _handleClickCapture(CaptureMode.screen);
+                  },
+                  text: 'Экран',
+                  icon: Icon(
+                    Icons.desktop_windows_sharp,
+                    size: 15,
+                  ),
+                  options: FFButtonOptions(
+                    height: 40,
+                    padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                    iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                    color: ColorsUtil.success,
+                    textStyle: TextStyle(
+                      fontFamily: 'Readex Pro',
+                      color: Colors.white,
+                      letterSpacing: 0,
+                    ),
+                    elevation: 3,
+                    borderSide: BorderSide(
+                      color: Colors.transparent,
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(30, 5, 5, 5),
+                child: FFButtonWidget(
+                  onPressed: () async {
+                    // OpenSettings
+                    print('Open Settings');
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SettingsWidget()));
+                  },
+                  text: 'Настройки',
+                  icon: Icon(
+                    Icons.settings_outlined,
+                    size: 15,
+                  ),
+                  options: FFButtonOptions(
+                    height: 40,
+                    padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                    iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                    color: ColorsUtil.error,
+                    textStyle: TextStyle(
+                      fontFamily: 'Readex Pro',
+                      color: Colors.white,
+                      letterSpacing: 0,
+                    ),
+                    elevation: 3,
+                    borderSide: BorderSide(
+                      color: Colors.transparent,
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
+            ],
+            centerTitle: false,
+            elevation: 2,
           ),
-          actions: [
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
-              child: FFButtonWidget(
-                onPressed: () {
-                  _handleClickCapture(CaptureMode.region);
-                },
-                text: 'Область',
-                icon: Icon(
-                  Icons.crop,
-                  size: 15,
-                ),
-                options: FFButtonOptions(
-                  height: 40,
-                  padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                  iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                  color: ColorsUtil.success,
-                  textStyle: TextStyle(
-                    fontFamily: 'Readex Pro',
-                    color: Colors.white,
-                    letterSpacing: 0,
-                  ),
-                  elevation: 3,
-                  borderSide: BorderSide(
-                    color: Colors.transparent,
-                    width: 1,
-                  ),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
-              child: FFButtonWidget(
-                onPressed: () {
-                  _handleClickCapture(CaptureMode.window);
-                },
-                text: 'Окно',
-                icon: Icon(
-                  Icons.window,
-                  size: 15,
-                ),
-                options: FFButtonOptions(
-                  height: 40,
-                  padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                  iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                  color: ColorsUtil.success,
-                  textStyle: TextStyle(
-                    fontFamily: 'Readex Pro',
-                    color: Colors.white,
-                    letterSpacing: 0,
-                  ),
-                  elevation: 3,
-                  borderSide: BorderSide(
-                    color: Colors.transparent,
-                    width: 1,
-                  ),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
-              child: FFButtonWidget(
-                onPressed: () {
-                  _handleClickCapture(CaptureMode.screen);
-                },
-                text: 'Экран',
-                icon: Icon(
-                  Icons.desktop_windows_sharp,
-                  size: 15,
-                ),
-                options: FFButtonOptions(
-                  height: 40,
-                  padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                  iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                  color: ColorsUtil.success,
-                  textStyle: TextStyle(
-                    fontFamily: 'Readex Pro',
-                    color: Colors.white,
-                    letterSpacing: 0,
-                  ),
-                  elevation: 3,
-                  borderSide: BorderSide(
-                    color: Colors.transparent,
-                    width: 1,
-                  ),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(30, 5, 5, 5),
-              child: FFButtonWidget(
-                onPressed: () async {
-                  // OpenSettings
-                  print('Open Settings');
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SettingsWidget()));
-                },
-                text: 'Настройки',
-                icon: Icon(
-                  Icons.settings_outlined,
-                  size: 15,
-                ),
-                options: FFButtonOptions(
-                  height: 40,
-                  padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                  iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                  color: ColorsUtil.error,
-                  textStyle: TextStyle(
-                    fontFamily: 'Readex Pro',
-                    color: Colors.white,
-                    letterSpacing: 0,
-                  ),
-                  elevation: 3,
-                  borderSide: BorderSide(
-                    color: Colors.transparent,
-                    width: 1,
-                  ),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-            ),
-          ],
-          centerTitle: false,
-          elevation: 2,
+          body: Builder(
+            builder: (context) {
+              return Center(child: Text('df'),);
+            }
+          ),
         ),
       ),
     );
@@ -347,32 +360,25 @@ class _HomePageWidgetState extends State<HomePageWidget>
   /// Редктор
   Widget _buildFileEditor(File file) {
     setRawImagePath(_lastCapturedData?.imagePath);
-    return TalkerWrapper(
-      talker: talker,
-      options: const TalkerWrapperOptions(
-        enableErrorAlerts: true,
-        enableExceptionAlerts: true,
+    return ProImageEditor.file(
+      file,
+      callbacks: ProImageEditorCallbacks(
+        onImageEditingStarted: onImageEditingStarted,
+        onImageEditingComplete: onImageEditingComplete,
+        onCloseEditor: onCloseEditor,
       ),
-      child: ProImageEditor.file(
-        file,
-        callbacks: ProImageEditorCallbacks(
-          onImageEditingStarted: onImageEditingStarted,
-          onImageEditingComplete: onImageEditingComplete,
-          onCloseEditor: onCloseEditor,
-        ),
-        configs: ProImageEditorConfigs(
-            designMode: platformDesignMode,
-            customWidgets: ImageEditorCustomWidgets(
-              mainEditor: CustomWidgetsMainEditor(
-                appBar: (editor, rebuildStream) => editor.selectedLayerIndex < 0
-                    ? ReactiveCustomAppbar(
-                        stream: rebuildStream,
-                        builder: (_) =>
-                            _buildAppBar(editor, _lastCapturedData?.imagePath))
-                    : null,
-              ),
-            )),
-      ),
+      configs: ProImageEditorConfigs(
+          designMode: platformDesignMode,
+          customWidgets: ImageEditorCustomWidgets(
+            mainEditor: CustomWidgetsMainEditor(
+              appBar: (editor, rebuildStream) => editor.selectedLayerIndex < 0
+                  ? ReactiveCustomAppbar(
+                      stream: rebuildStream,
+                      builder: (_) =>
+                          _buildAppBar(editor, _lastCapturedData?.imagePath))
+                  : null,
+            ),
+          )),
     );
   }
 
@@ -509,4 +515,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
       windowManager.hide();
     }
   }
+
+
+
 }
+

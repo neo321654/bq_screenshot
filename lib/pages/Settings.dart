@@ -112,6 +112,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
+            SizedBox(width: 10,),
             FFButtonWidget(
               onPressed: () {
                 _settingsStorage.saveSettings();
