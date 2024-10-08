@@ -79,7 +79,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
   void initTray() async {
     await trayManager.setIcon(
-      Platform.isWindows ? 'images/tray_icon.ico' : 'images/tray_icon.png',
+      Platform.isWindows ? 'images/tray_icon_original.ico' : 'images/tray_icon_original.png',
     );
 
     Menu menu = Menu(items: [
