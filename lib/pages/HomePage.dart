@@ -100,11 +100,11 @@ class _HomePageWidgetState extends State<HomePageWidget>
         key: 'capture_area',
         label: 'Область',
       ),
-      MenuItem(
+      if(Platform.isMacOS)MenuItem(
         key: 'capture_window',
         label: 'Окно',
       ),
-      MenuItem(
+      if(Platform.isMacOS)MenuItem(
         key: 'capture_screen',
         label: 'Экран',
       ),
@@ -209,7 +209,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                   ),
                 ),
               ),
-              Padding(
+              if(Platform.isMacOS)Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
                 child: FFButtonWidget(
                   onPressed: () {
@@ -239,7 +239,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
                   ),
                 ),
               ),
-              Padding(
+
+              if(Platform.isMacOS)Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
                 child: FFButtonWidget(
                   onPressed: () {
@@ -269,7 +270,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
                   ),
                 ),
               ),
-              Padding(
+              if(!Platform.isMacOS)SizedBox(width: 40,),
+             Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(30, 5, 5, 5),
                 child: FFButtonWidget(
                   onPressed: () async {
