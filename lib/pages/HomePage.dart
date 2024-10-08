@@ -45,7 +45,12 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
   var _settingsStorage;
 
-  late HotKey _hotKeyArea, _hotKeyWindow, _hotKeyScreen;
+  late HotKey _hotKeyArea,
+      _hotKeyWindow,
+      _hotKeyScreen,
+      _hotKeyAreaNew,
+      _hotKeyWindowNew,
+      _hotKeyScreenNew;
 
   @override
   void initState() {
@@ -191,33 +196,40 @@ class _HomePageWidgetState extends State<HomePageWidget>
             actions: [
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
-                child: FFButtonWidget(
-                  onPressed: () {
-                    // throw 'dffd';
-                    _handleClickCapture(CaptureMode.region);
-                  },
-                  text: 'Область',
-                  icon: Icon(
-                    Icons.crop,
-                    size: 15,
-                  ),
-                  options: FFButtonOptions(
-                    height: 40,
-                    padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                    iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                    color: ColorsUtil.success,
-                    textStyle: TextStyle(
-                      fontFamily: 'Readex Pro',
-                      color: Colors.white,
-                      letterSpacing: 0,
+                child: Row(
+                  children: [
+                    InkWell(
+                      child: Icon(Icons.settings),
+                      onTap: () {},
                     ),
-                    elevation: 3,
-                    borderSide: BorderSide(
-                      color: Colors.transparent,
-                      width: 1,
+                    FFButtonWidget(
+                      onPressed: () {
+                        _handleClickCapture(CaptureMode.region);
+                      },
+                      text: 'Область',
+                      icon: Icon(
+                        Icons.crop,
+                        size: 15,
+                      ),
+                      options: FFButtonOptions(
+                        height: 40,
+                        padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                        iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                        color: ColorsUtil.success,
+                        textStyle: TextStyle(
+                          fontFamily: 'Readex Pro',
+                          color: Colors.white,
+                          letterSpacing: 0,
+                        ),
+                        elevation: 3,
+                        borderSide: BorderSide(
+                          color: Colors.transparent,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                     ),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
+                  ],
                 ),
               ),
               if (Platform.isMacOS)
@@ -326,11 +338,56 @@ class _HomePageWidgetState extends State<HomePageWidget>
             elevation: 2,
           ),
           body: Center(
-            child: HotKeyRecorder(
-              onHotKeyRecorded: (hotKey) {
-                _hotKeyArea = hotKey;
-                setState(() {});
-              },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 80, // Установите ширину
+                  height: 80,
+                  child: FittedBox(
+                    child: HotKeyRecorder(
+                      onHotKeyRecorded: (hotKey) {
+                        _hotKeyAreaNew = hotKey;
+                        setState(() {});
+                      },
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                    style: ButtonStyle(
+                        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8))),
+                        padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
+                            EdgeInsets.symmetric(vertical: 20, horizontal: 40)),
+                        backgroundColor:
+                            WidgetStateProperty.all<Color>(Colors.green)),
+                    onPressed: () async {
+                      await hotKeyManager.unregister(_hotKeyArea);
+
+                      await hotKeyManager.register(_hotKeyAreaNew,
+                          keyUpHandler: (hotKey) {
+                        _handleClickCapture(CaptureMode.region);
+                      });
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Icon(Icons.save),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          'Сохранить',
+                          style: TextStyle(color: Colors.white, fontSize: 14),
+                        ),
+                      ],
+                    )),
+              ],
             ),
           ),
         ),
