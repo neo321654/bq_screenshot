@@ -28,6 +28,17 @@ import '../models/homepage_model.dart';
 import 'flutter_flow_button.dart';
 export '../models/homepage_model.dart';
 
+enum HotKeyName {
+  region('Область'),
+  window('Окно'),
+  empty(''),
+  screen('Экран');
+
+  final String name;
+
+  const HotKeyName(this.name);
+}
+
 class HomePageWidget extends StatefulWidget {
   const HomePageWidget({super.key});
 
@@ -52,7 +63,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
       _hotKeyWindowNew,
       _hotKeyScreenNew;
 
-  String hotKeyName = '';
+  HotKeyName hotKeyName = HotKeyName.empty;
 
   @override
   void initState() {
@@ -203,7 +214,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                     InkWell(
                       child: Icon(Icons.settings),
                       onTap: () {
-                        hotKeyName = 'Область';
+                        hotKeyName = HotKeyName.region;
                         setState(() {});
                       },
                     ),
@@ -211,7 +222,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                       onPressed: () {
                         _handleClickCapture(CaptureMode.region);
                       },
-                      text: 'Область',
+                      text: HotKeyName.region.name,
                       icon: Icon(
                         Icons.crop,
                         size: 15,
@@ -240,63 +251,87 @@ class _HomePageWidgetState extends State<HomePageWidget>
               if (Platform.isMacOS)
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
-                  child: FFButtonWidget(
-                    onPressed: () {
-                      _handleClickCapture(CaptureMode.window);
-                    },
-                    text: 'Окно',
-                    icon: Icon(
-                      Icons.window,
-                      size: 15,
-                    ),
-                    options: FFButtonOptions(
-                      height: 40,
-                      padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                      iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                      color: ColorsUtil.success,
-                      textStyle: TextStyle(
-                        fontFamily: 'Readex Pro',
-                        color: Colors.white,
-                        letterSpacing: 0,
+                  child: Row(
+                    children: [
+                      InkWell(
+                        child: Icon(Icons.settings),
+                        onTap: () {
+                          hotKeyName = HotKeyName.window;
+                          setState(() {});
+                        },
                       ),
-                      elevation: 3,
-                      borderSide: BorderSide(
-                        color: Colors.transparent,
-                        width: 1,
+                      FFButtonWidget(
+                        onPressed: () {
+                          _handleClickCapture(CaptureMode.window);
+                        },
+                        text: HotKeyName.window.name,
+                        icon: Icon(
+                          Icons.window,
+                          size: 15,
+                        ),
+                        options: FFButtonOptions(
+                          height: 40,
+                          padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                          iconPadding:
+                              EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                          color: ColorsUtil.success,
+                          textStyle: TextStyle(
+                            fontFamily: 'Readex Pro',
+                            color: Colors.white,
+                            letterSpacing: 0,
+                          ),
+                          elevation: 3,
+                          borderSide: BorderSide(
+                            color: Colors.transparent,
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                       ),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
+                    ],
                   ),
                 ),
               if (Platform.isMacOS)
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
-                  child: FFButtonWidget(
-                    onPressed: () {
-                      _handleClickCapture(CaptureMode.screen);
-                    },
-                    text: 'Экран',
-                    icon: Icon(
-                      Icons.desktop_windows_sharp,
-                      size: 15,
-                    ),
-                    options: FFButtonOptions(
-                      height: 40,
-                      padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                      iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                      color: ColorsUtil.success,
-                      textStyle: TextStyle(
-                        fontFamily: 'Readex Pro',
-                        color: Colors.white,
-                        letterSpacing: 0,
+                  child: Row(
+                    children: [
+                      InkWell(
+                        child: Icon(Icons.settings),
+                        onTap: () {
+                          hotKeyName = HotKeyName.screen;
+                          setState(() {});
+                        },
                       ),
-                      elevation: 3,
-                      borderSide: BorderSide(
-                        color: Colors.transparent,
-                        width: 1,
+                      FFButtonWidget(
+                        onPressed: () {
+                          _handleClickCapture(CaptureMode.screen);
+                        },
+                        text: HotKeyName.region.name,
+                        icon: Icon(
+                          Icons.desktop_windows_sharp,
+                          size: 15,
+                        ),
+                        options: FFButtonOptions(
+                          height: 40,
+                          padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                          iconPadding:
+                              EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                          color: ColorsUtil.success,
+                          textStyle: TextStyle(
+                            fontFamily: 'Readex Pro',
+                            color: Colors.white,
+                            letterSpacing: 0,
+                          ),
+                          elevation: 3,
+                          borderSide: BorderSide(
+                            color: Colors.transparent,
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                       ),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
+                    ],
                   ),
                 ),
               if (!Platform.isMacOS)
@@ -350,7 +385,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                       Padding(
                         padding: const EdgeInsets.all(18.0),
                         child: Text(
-                            'Нажмните сочетание клавиш для изменения hotkey "$hotKeyName" и далее  на кнопку "Сохранить" '),
+                            'Нажмните сочетание клавиш для изменения hotkey "${hotKeyName.name}" и далее  на кнопку "Сохранить" '),
                       ),
                       SizedBox(
                         width: 80, // Установите ширину
@@ -380,12 +415,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                               backgroundColor:
                                   WidgetStateProperty.all<Color>(Colors.green)),
                           onPressed: () async {
-                            await hotKeyManager.unregister(_hotKeyArea);
-
-                            await hotKeyManager.register(_hotKeyAreaNew,
-                                keyUpHandler: (hotKey) {
-                              _handleClickCapture(CaptureMode.region);
-                            });
+                            await registerNewKey(hotKeyName, _hotKeyAreaNew);
                           },
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
@@ -409,6 +439,33 @@ class _HomePageWidgetState extends State<HomePageWidget>
         ),
       ),
     );
+  }
+
+  Future<void> registerNewKey(
+      HotKeyName hotKeyName, HotKey hotKeyAreaNew) async {
+    switch (hotKeyName) {
+      case HotKeyName.region:
+        await hotKeyManager.unregister(_hotKeyArea);
+
+        await hotKeyManager.register(hotKeyAreaNew, keyUpHandler: (hotKey) {
+          _handleClickCapture(CaptureMode.region);
+        });
+      case HotKeyName.window:
+        await hotKeyManager.unregister(_hotKeyWindow);
+
+        await hotKeyManager.register(hotKeyAreaNew, keyUpHandler: (hotKey) {
+          _handleClickCapture(CaptureMode.window);
+        });
+      case HotKeyName.screen:
+        await hotKeyManager.unregister(_hotKeyScreen);
+
+        await hotKeyManager.register(hotKeyAreaNew, keyUpHandler: (hotKey) {
+          _handleClickCapture(CaptureMode.screen);
+        });
+
+      case HotKeyName.empty:
+        break;
+    }
   }
 
   /// Событие создания скриншота
