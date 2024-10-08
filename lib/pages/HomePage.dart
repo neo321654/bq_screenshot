@@ -440,6 +440,23 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                   WidgetStateProperty.all<Color>(Colors.green)),
                           onPressed: () async {
                             await registerNewKey(hotKeyName, _hotKeyAreaNew);
+                            switch (hotKeyName) {
+                              case HotKeyName.screen:
+                            // _hotKeyScreen.modifiers?.fold<String>(
+                            //     '', (previousValue, element) => previousValue + element.name),
+                                _hotKeyScreenToolTip  = _hotKeyAreaNew.modifiers?.fold<String>(
+                                    '', (previousValue, element) => previousValue + element.name +"+")??'';
+                                _hotKeyScreenToolTip +=_hotKeyAreaNew.key.keyLabel??'';
+
+                              case HotKeyName.region:
+                                // TODO: Handle this case.
+                              case HotKeyName.window:
+                                // TODO: Handle this case.
+                              case HotKeyName.empty:
+                                // TODO: Handle this case.
+                            }
+
+
                             hotKeyName = HotKeyName.empty;
                             setState(() {});
                           },
