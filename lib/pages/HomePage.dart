@@ -118,33 +118,43 @@ class _HomePageWidgetState extends State<HomePageWidget>
   }
 
   void registerHotKeys() async {
+
+
     HotKey _hotKeyArea = HotKey(
-      key: PhysicalKeyboardKey.digit4,
+      key: PhysicalKeyboardKey.digit8,
+      identifier: '8',
       modifiers: [HotKeyModifier.alt],
       // Set hotkey scope (default is HotKeyScope.system)
-      scope: HotKeyScope.inapp, // Set as inapp-wide hotkey.
+      scope: HotKeyScope.system, // Set as inapp-wide hotkey.
     );
 
     HotKey _hotKeyWindow = HotKey(
-      key: PhysicalKeyboardKey.digit5,
+      key: PhysicalKeyboardKey.digit7,
       modifiers: [HotKeyModifier.alt],
+      identifier: '7',
+
       // Set hotkey scope (default is HotKeyScope.system)
-      scope: HotKeyScope.inapp, // Set as inapp-wide hotkey.
+      scope: HotKeyScope.system, // Set as inapp-wide hotkey.
     );
 
     HotKey _hotKeyScreen = HotKey(
       key: PhysicalKeyboardKey.digit6,
       modifiers: [HotKeyModifier.alt],
+      identifier: '6',
+
       // Set hotkey scope (default is HotKeyScope.system)
-      scope: HotKeyScope.inapp, // Set as inapp-wide hotkey.
+      scope: HotKeyScope.system, // Set as inapp-wide hotkey.
     );
+
+
+    await hotKeyManager.register(_hotKeyWindow, keyDownHandler: (hotKey) {
+      _handleClickCapture(CaptureMode.window);
+    });
 
     await hotKeyManager.register(_hotKeyArea, keyDownHandler: (hotKey) {
       _handleClickCapture(CaptureMode.region);
     });
-    await hotKeyManager.register(_hotKeyWindow, keyDownHandler: (hotKey) {
-      _handleClickCapture(CaptureMode.window);
-    });
+
     await hotKeyManager.register(_hotKeyScreen, keyDownHandler: (hotKey) {
       _handleClickCapture(CaptureMode.screen);
     });

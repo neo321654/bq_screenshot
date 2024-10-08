@@ -58,9 +58,11 @@ void main() async {
         exit(0);
       }
 
-      await hotKeyManager.unregisterAll();
+
 
       await windowManager.ensureInitialized();
+
+      await hotKeyManager.unregisterAll();
 
       WindowOptions windowOptions = const WindowOptions(
         size: Size(800, 600),
@@ -123,196 +125,10 @@ class _MyAppState extends State<MyApp> {
     // _timer?.cancel();
   }
 
-  // Future<void> initSystemTray() async {
-  //   List<String> iconList = ['darts_icon', 'gift_icon'];
-  //
-  //   // We first init the systray menu and then add the menu entries
-  //   await _systemTray.initSystemTray(iconPath: getTrayImagePath('app_icon'), title: '');
-  //   _systemTray.setTitle("system tray");
-  //   _systemTray.setToolTip("How to use system tray with Flutter");
-  //
-  //   // handle system tray event
-  //   _systemTray.registerSystemTrayEventHandler((eventName) {
-  //     debugtalker.debug("eventName: $eventName");
-  //     if (eventName == kSystemTrayEventClick) {
-  //       Platform.isWindows ? _appWindow.show() : _systemTray.popUpContextMenu();
-  //     } else if (eventName == kSystemTrayEventRightClick) {
-  //       Platform.isWindows ? _systemTray.popUpContextMenu() : _appWindow.show();
-  //     }
-  //   });
-  //
-  //   await _menuMain.buildFrom(
-  //     [
-  //       MenuItemLabel(
-  //         label: 'Change Context Menu',
-  //         image: getImagePath('darts_icon'),
-  //         onClicked: (menuItem) {
-  //           debugtalker.debug("Change Context Menu");
-  //
-  //           _toogleMenu = !_toogleMenu;
-  //           _systemTray.setContextMenu(_toogleMenu ? _menuMain : _menuSimple);
-  //         },
-  //       ),
-  //       MenuSeparator(),
-  //       MenuItemLabel(
-  //           label: 'Show',
-  //           image: getImagePath('darts_icon'),
-  //           onClicked: (menuItem) => _appWindow.show()),
-  //       MenuItemLabel(
-  //           label: 'Hide',
-  //           image: getImagePath('darts_icon'),
-  //           onClicked: (menuItem) => _appWindow.hide()),
-  //       MenuSeparator(),
-  //       SubMenu(
-  //         label: "Test API",
-  //         image: getImagePath('gift_icon'),
-  //         children: [
-  //           SubMenu(
-  //             label: "setSystemTrayInfo",
-  //             image: getImagePath('darts_icon'),
-  //             children: [
-  //               MenuItemLabel(
-  //                 label: 'setTitle',
-  //                 image: getImagePath('darts_icon'),
-  //                 onClicked: (menuItem) {
-  //                   final String text = 'WordPair.random().asPascalCase';
-  //                   debugtalker.debug("click 'setTitle' : $text");
-  //                   _systemTray.setTitle(text);
-  //                 },
-  //               ),
-  //               MenuItemLabel(
-  //                 label: 'setImage',
-  //                 image: getImagePath('gift_icon'),
-  //                 onClicked: (menuItem) {
-  //                   String iconName =
-  //                   iconList[1];
-  //                   String path = getTrayImagePath(iconName);
-  //                   debugtalker.debug("click 'setImage' : $path");
-  //                   _systemTray.setImage(path);
-  //                 },
-  //               ),
-  //               MenuItemLabel(
-  //                 label: 'setToolTip',
-  //                 image: getImagePath('darts_icon'),
-  //                 onClicked: (menuItem) {
-  //                   final String text = 'WordPair.random().asPascalCase';
-  //                   debugtalker.debug("click 'setToolTip' : $text");
-  //                   _systemTray.setToolTip(text);
-  //                 },
-  //               ),
-  //               MenuItemLabel(
-  //                 label: 'getTitle',
-  //                 image: getImagePath('gift_icon'),
-  //                 onClicked: (menuItem) async {
-  //                   String title = await _systemTray.getTitle();
-  //                   debugtalker.debug("click 'getTitle' : $title");
-  //                 },
-  //               ),
-  //             ],
-  //           ),
-  //           MenuItemLabel(
-  //               label: 'disabled Item',
-  //               name: 'disableItem',
-  //               image: getImagePath('gift_icon'),
-  //               enabled: false),
-  //         ],
-  //       ),
-  //       MenuSeparator(),
-  //       MenuItemLabel(
-  //         label: 'Set Item Image',
-  //         onClicked: (menuItem) async {
-  //           debugtalker.debug("click 'SetItemImage'");
-  //
-  //           String iconName = iconList[1];
-  //           String path = getImagePath(iconName);
-  //
-  //           await menuItem.setImage(path);
-  //           debugtalker.debug(
-  //               "click name: ${menuItem.name} menuItemId: ${menuItem.menuItemId} label: ${menuItem.label} image: ${menuItem.image}");
-  //         },
-  //       ),
-  //       MenuItemCheckbox(
-  //         label: 'Checkbox 1',
-  //         name: 'checkbox1',
-  //         checked: true,
-  //         onClicked: (menuItem) async {
-  //           debugtalker.debug("click 'Checkbox 1'");
-  //
-  //           MenuItemCheckbox? checkbox1 =
-  //           _menuMain.findItemByName<MenuItemCheckbox>("checkbox1");
-  //           await checkbox1?.setCheck(!checkbox1.checked);
-  //
-  //           MenuItemCheckbox? checkbox2 =
-  //           _menuMain.findItemByName<MenuItemCheckbox>("checkbox2");
-  //           await checkbox2?.setEnable(checkbox1?.checked ?? true);
-  //
-  //           debugtalker.debug(
-  //               "click name: ${checkbox1?.name} menuItemId: ${checkbox1?.menuItemId} label: ${checkbox1?.label} checked: ${checkbox1?.checked}");
-  //         },
-  //       ),
-  //       MenuItemCheckbox(
-  //         label: 'Checkbox 2',
-  //         name: 'checkbox2',
-  //         onClicked: (menuItem) async {
-  //           debugtalker.debug("click 'Checkbox 2'");
-  //
-  //           await menuItem.setCheck(!menuItem.checked);
-  //           await menuItem.setLabel('WordPair.random().asPascalCase');
-  //           debugtalker.debug(
-  //               "click name: ${menuItem.name} menuItemId: ${menuItem.menuItemId} label: ${menuItem.label} checked: ${menuItem.checked}");
-  //         },
-  //       ),
-  //       MenuItemCheckbox(
-  //         label: 'Checkbox 3',
-  //         name: 'checkbox3',
-  //         checked: true,
-  //         onClicked: (menuItem) async {
-  //           debugtalker.debug("click 'Checkbox 3'");
-  //
-  //           await menuItem.setCheck(!menuItem.checked);
-  //           debugtalker.debug(
-  //               "click name: ${menuItem.name} menuItemId: ${menuItem.menuItemId} label: ${menuItem.label} checked: ${menuItem.checked}");
-  //         },
-  //       ),
-  //       MenuSeparator(),
-  //       MenuItemLabel(
-  //           label: 'Exit', onClicked: (menuItem) => _appWindow.close()),
-  //     ],
-  //   );
-  //
-  //   await _menuSimple.buildFrom([
-  //     MenuItemLabel(
-  //       label: 'Change Context Menu',
-  //       image: getImagePath('app_icon'),
-  //       onClicked: (menuItem) {
-  //         debugtalker.debug("Change Context Menu");
-  //
-  //         _toogleMenu = !_toogleMenu;
-  //         _systemTray.setContextMenu(_toogleMenu ? _menuMain : _menuSimple);
-  //       },
-  //     ),
-  //     MenuSeparator(),
-  //     MenuItemLabel(
-  //         label: 'Show',
-  //         image: getImagePath('app_icon'),
-  //         onClicked: (menuItem) => _appWindow.show()),
-  //     MenuItemLabel(
-  //         label: 'Hide',
-  //         image: getImagePath('app_icon'),
-  //         onClicked: (menuItem) => _appWindow.hide()),
-  //     MenuItemLabel(
-  //       label: 'Exit',
-  //       image: getImagePath('app_icon'),
-  //       onClicked: (menuItem) => _appWindow.close(),
-  //     ),
-  //   ]);
-  //
-  //   _systemTray.setContextMenu(_menuMain);
-  // }
+
 
   @override
   Widget build(BuildContext context) {
-    // createHighlightOverlay(alignment: AlignmentDirectional.center,borderColor: Colors.red);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -326,10 +142,4 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-String getTrayImagePath(String imageName) {
-  return Platform.isWindows ? 'assets/$imageName.ico' : 'assets/$imageName.png';
-}
 
-String getImagePath(String imageName) {
-  return Platform.isWindows ? 'assets/$imageName.bmp' : 'assets/$imageName.png';
-}
