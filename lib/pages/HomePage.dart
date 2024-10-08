@@ -52,6 +52,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
       _hotKeyWindowNew,
       _hotKeyScreenNew;
 
+  String hotKeyName = '';
+
   @override
   void initState() {
     super.initState();
@@ -200,7 +202,10 @@ class _HomePageWidgetState extends State<HomePageWidget>
                   children: [
                     InkWell(
                       child: Icon(Icons.settings),
-                      onTap: () {},
+                      onTap: () {
+                        hotKeyName = 'Область';
+                        setState(() {});
+                      },
                     ),
                     FFButtonWidget(
                       onPressed: () {
@@ -337,59 +342,70 @@ class _HomePageWidgetState extends State<HomePageWidget>
             centerTitle: false,
             elevation: 2,
           ),
-          body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 80, // Установите ширину
-                  height: 80,
-                  child: FittedBox(
-                    child: HotKeyRecorder(
-                      onHotKeyRecorded: (hotKey) {
-                        _hotKeyAreaNew = hotKey;
-                        setState(() {});
-                      },
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                ElevatedButton(
-                    style: ButtonStyle(
-                        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8))),
-                        padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-                            EdgeInsets.symmetric(vertical: 20, horizontal: 40)),
-                        backgroundColor:
-                            WidgetStateProperty.all<Color>(Colors.green)),
-                    onPressed: () async {
-                      await hotKeyManager.unregister(_hotKeyArea);
+          body: (hotKeyName != '')
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(18.0),
+                        child: Text(
+                            'Нажмните сочетание клавиш для изменения hotkey "$hotKeyName" и далее  на кнопку "Сохранить" '),
+                      ),
+                      SizedBox(
+                        width: 80, // Установите ширину
+                        height: 80,
+                        child: FittedBox(
+                          child: HotKeyRecorder(
+                            onHotKeyRecorded: (hotKey) {
+                              _hotKeyAreaNew = hotKey;
+                              setState(() {});
+                            },
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      ElevatedButton(
+                          style: ButtonStyle(
+                              shape: WidgetStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8))),
+                              padding:
+                                  WidgetStateProperty.all<EdgeInsetsGeometry>(
+                                      EdgeInsets.symmetric(
+                                          vertical: 20, horizontal: 40)),
+                              backgroundColor:
+                                  WidgetStateProperty.all<Color>(Colors.green)),
+                          onPressed: () async {
+                            await hotKeyManager.unregister(_hotKeyArea);
 
-                      await hotKeyManager.register(_hotKeyAreaNew,
-                          keyUpHandler: (hotKey) {
-                        _handleClickCapture(CaptureMode.region);
-                      });
-                    },
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Icon(Icons.save),
-                        SizedBox(
-                          width: 8,
-                        ),
-                        Text(
-                          'Сохранить',
-                          style: TextStyle(color: Colors.white, fontSize: 14),
-                        ),
-                      ],
-                    )),
-              ],
-            ),
-          ),
+                            await hotKeyManager.register(_hotKeyAreaNew,
+                                keyUpHandler: (hotKey) {
+                              _handleClickCapture(CaptureMode.region);
+                            });
+                          },
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Icon(Icons.save),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              Text(
+                                'Сохранить',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 14),
+                              ),
+                            ],
+                          )),
+                    ],
+                  ),
+                )
+              : SizedBox.shrink(),
         ),
       ),
     );
