@@ -34,52 +34,63 @@ final talker = TalkerFlutter.init();
 
 void main() async {
   checkDateReturn();
+  runZonedGuarded(
+    () async {
+      PlatformDispatcher.instance.onError = (error, stack) {
+        talker.handle(error, stack);
+        return true;
+      };
 
-  PlatformDispatcher.instance.onError = (error, stack) {
-    talker.handle(error, stack);
-    return true;
-  };
+      FlutterError.onError = (details) {
+        FlutterError.presentError(details);
+        talker.handle(details);
+        talker.error('Caught a Flutter error: ${details.exception}');
+      };
 
-  FlutterError.onError = (details) {
-    FlutterError.presentError(details);
-    talker.handle(details);
-    talker.error('Caught a Flutter error: ${details.exception}');
-  };
+      // runZonedGuarded(() async {
 
-  // runZonedGuarded(() async {
+      WidgetsFlutterBinding.ensureInitialized();
 
-  WidgetsFlutterBinding.ensureInitialized();
+      if (await FlutterSingleInstance.platform.isFirstInstance()) {
+        runApp(MyApp());
+      } else {
+        talker.debug("App is already running");
+        exit(0);
+      }
 
-  if (await FlutterSingleInstance.platform.isFirstInstance()) {
-    runApp(MyApp());
-  } else {
-    talker.debug("App is already running");
-    exit(0);
-  }
+      await hotKeyManager.unregisterAll();
 
-  await hotKeyManager.unregisterAll();
+      await windowManager.ensureInitialized();
 
-  await windowManager.ensureInitialized();
+      WindowOptions windowOptions = const WindowOptions(
+        size: Size(800, 600),
+        center: true,
+        backgroundColor: Colors.transparent,
+        skipTaskbar: false,
+        titleBarStyle: TitleBarStyle.normal,
+      );
+      windowManager.waitUntilReadyToShow(windowOptions, () async {
+        await windowManager.show();
+        await windowManager.focus();
+      });
 
-  WindowOptions windowOptions = const WindowOptions(
-    size: Size(800, 600),
-    center: true,
-    backgroundColor: Colors.transparent,
-    skipTaskbar: false,
-    titleBarStyle: TitleBarStyle.normal,
+      runApp(MyApp());
+
+      // runZonedGuarded(() async {}
+    },
+    (error, stackTrace) {
+      talker.handle(error, stackTrace);
+      talker.debug(stackTrace);
+      talker.error('Caught an error in zone: $error');
+    },
+    zoneSpecification: ZoneSpecification(
+      print: (Zone self, ZoneDelegate parent, Zone zone, String line) {
+        // Здесь мы можем изменить поведение функции print
+        // parent.print(zone, 'Перехвачено: $line'); // Изменяем вывод
+        talker.debug(line);
+      },
+    ),
   );
-  windowManager.waitUntilReadyToShow(windowOptions, () async {
-    await windowManager.show();
-    await windowManager.focus();
-  });
-
-  runApp(MyApp());
-
-  runZonedGuarded(() async {}, (error, stackTrace) {
-    talker.handle(error, stackTrace);
-    talker.debug(stackTrace);
-    talker.error('Caught an error in zone: $error');
-  });
 }
 
 class MyApp extends StatefulWidget {
