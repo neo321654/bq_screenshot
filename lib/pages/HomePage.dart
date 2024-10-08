@@ -274,7 +274,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                 child: FFButtonWidget(
                   onPressed: () async {
                     // OpenSettings
-                    print('Open Settings');
+                    talker.debug('Open Settings');
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -307,11 +307,6 @@ class _HomePageWidgetState extends State<HomePageWidget>
             ],
             centerTitle: false,
             elevation: 2,
-          ),
-          body: Builder(
-            builder: (context) {
-              return Center(child: Text('df'),);
-            }
           ),
         ),
       ),
@@ -352,7 +347,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
       );
     } else {
       // ignore: avoid_print
-      print('User canceled capture');
+      talker.debug('User canceled capture');
     }
     setState(() {});
   }
@@ -458,7 +453,10 @@ class _HomePageWidgetState extends State<HomePageWidget>
               file.writeAsBytesSync(bytes);
 
               try {
+
+
                 await uploadToS3(Settingstorage.ImageName, imagePath);
+
               } on Exception catch (e) {
                 talker.handle(e);
               }

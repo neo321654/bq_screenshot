@@ -13,6 +13,7 @@ import 'package:minio/minio.dart';
 // Package imports:
 import 'package:pro_image_editor/pro_image_editor.dart';
 
+import '../main.dart';
 import 'SettingsStorage.dart';
 
 // Project imports:
@@ -64,18 +65,30 @@ mixin EditorEventsState<T extends StatefulWidget> on State<T> {
   }
 
   Future<void> uploadToS3(String fileName, String filePath) async {
+
     Settingstorage _settings = await Settingstorage().loadSettings();
+
     if (_settings.Settings.s3_endPoint.isNotEmpty &&
         _settings.Settings.s3_secretKey.isNotEmpty &&
         _settings.Settings.s3_accessKey.isNotEmpty &&
         _settings.Settings.s3_bucket.isNotEmpty) {
+
       final minio = Minio(
         endPoint: _settings.Settings.s3_endPoint,
         accessKey: _settings.Settings.s3_accessKey,
         secretKey: _settings.Settings.s3_secretKey,
+        enableTrace: true,
       );
+
+      talker.debug("minio.sessionToken = ${minio.sessionToken}");
+
+
       var result = await minio.fPutObject(
           _settings.Settings.s3_bucket, fileName, filePath);
+
+      talker.debug("minio.sessionToken afterPut = ${minio.sessionToken}");
+      talker.debug("minio result after putObject = ${result}");
+
       if (result.isNotEmpty) {
         Clipboard.setData(ClipboardData(
             text:

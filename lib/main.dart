@@ -53,8 +53,7 @@ void main() async {
   if (await FlutterSingleInstance.platform.isFirstInstance()) {
     runApp(MyApp());
   } else {
-    print("App is already running");
-
+    talker.debug("App is already running");
     exit(0);
   }
 
@@ -123,7 +122,7 @@ class _MyAppState extends State<MyApp> {
   //
   //   // handle system tray event
   //   _systemTray.registerSystemTrayEventHandler((eventName) {
-  //     debugPrint("eventName: $eventName");
+  //     debugtalker.debug("eventName: $eventName");
   //     if (eventName == kSystemTrayEventClick) {
   //       Platform.isWindows ? _appWindow.show() : _systemTray.popUpContextMenu();
   //     } else if (eventName == kSystemTrayEventRightClick) {
@@ -137,7 +136,7 @@ class _MyAppState extends State<MyApp> {
   //         label: 'Change Context Menu',
   //         image: getImagePath('darts_icon'),
   //         onClicked: (menuItem) {
-  //           debugPrint("Change Context Menu");
+  //           debugtalker.debug("Change Context Menu");
   //
   //           _toogleMenu = !_toogleMenu;
   //           _systemTray.setContextMenu(_toogleMenu ? _menuMain : _menuSimple);
@@ -166,7 +165,7 @@ class _MyAppState extends State<MyApp> {
   //                 image: getImagePath('darts_icon'),
   //                 onClicked: (menuItem) {
   //                   final String text = 'WordPair.random().asPascalCase';
-  //                   debugPrint("click 'setTitle' : $text");
+  //                   debugtalker.debug("click 'setTitle' : $text");
   //                   _systemTray.setTitle(text);
   //                 },
   //               ),
@@ -177,7 +176,7 @@ class _MyAppState extends State<MyApp> {
   //                   String iconName =
   //                   iconList[1];
   //                   String path = getTrayImagePath(iconName);
-  //                   debugPrint("click 'setImage' : $path");
+  //                   debugtalker.debug("click 'setImage' : $path");
   //                   _systemTray.setImage(path);
   //                 },
   //               ),
@@ -186,7 +185,7 @@ class _MyAppState extends State<MyApp> {
   //                 image: getImagePath('darts_icon'),
   //                 onClicked: (menuItem) {
   //                   final String text = 'WordPair.random().asPascalCase';
-  //                   debugPrint("click 'setToolTip' : $text");
+  //                   debugtalker.debug("click 'setToolTip' : $text");
   //                   _systemTray.setToolTip(text);
   //                 },
   //               ),
@@ -195,7 +194,7 @@ class _MyAppState extends State<MyApp> {
   //                 image: getImagePath('gift_icon'),
   //                 onClicked: (menuItem) async {
   //                   String title = await _systemTray.getTitle();
-  //                   debugPrint("click 'getTitle' : $title");
+  //                   debugtalker.debug("click 'getTitle' : $title");
   //                 },
   //               ),
   //             ],
@@ -211,13 +210,13 @@ class _MyAppState extends State<MyApp> {
   //       MenuItemLabel(
   //         label: 'Set Item Image',
   //         onClicked: (menuItem) async {
-  //           debugPrint("click 'SetItemImage'");
+  //           debugtalker.debug("click 'SetItemImage'");
   //
   //           String iconName = iconList[1];
   //           String path = getImagePath(iconName);
   //
   //           await menuItem.setImage(path);
-  //           debugPrint(
+  //           debugtalker.debug(
   //               "click name: ${menuItem.name} menuItemId: ${menuItem.menuItemId} label: ${menuItem.label} image: ${menuItem.image}");
   //         },
   //       ),
@@ -226,7 +225,7 @@ class _MyAppState extends State<MyApp> {
   //         name: 'checkbox1',
   //         checked: true,
   //         onClicked: (menuItem) async {
-  //           debugPrint("click 'Checkbox 1'");
+  //           debugtalker.debug("click 'Checkbox 1'");
   //
   //           MenuItemCheckbox? checkbox1 =
   //           _menuMain.findItemByName<MenuItemCheckbox>("checkbox1");
@@ -236,7 +235,7 @@ class _MyAppState extends State<MyApp> {
   //           _menuMain.findItemByName<MenuItemCheckbox>("checkbox2");
   //           await checkbox2?.setEnable(checkbox1?.checked ?? true);
   //
-  //           debugPrint(
+  //           debugtalker.debug(
   //               "click name: ${checkbox1?.name} menuItemId: ${checkbox1?.menuItemId} label: ${checkbox1?.label} checked: ${checkbox1?.checked}");
   //         },
   //       ),
@@ -244,11 +243,11 @@ class _MyAppState extends State<MyApp> {
   //         label: 'Checkbox 2',
   //         name: 'checkbox2',
   //         onClicked: (menuItem) async {
-  //           debugPrint("click 'Checkbox 2'");
+  //           debugtalker.debug("click 'Checkbox 2'");
   //
   //           await menuItem.setCheck(!menuItem.checked);
   //           await menuItem.setLabel('WordPair.random().asPascalCase');
-  //           debugPrint(
+  //           debugtalker.debug(
   //               "click name: ${menuItem.name} menuItemId: ${menuItem.menuItemId} label: ${menuItem.label} checked: ${menuItem.checked}");
   //         },
   //       ),
@@ -257,10 +256,10 @@ class _MyAppState extends State<MyApp> {
   //         name: 'checkbox3',
   //         checked: true,
   //         onClicked: (menuItem) async {
-  //           debugPrint("click 'Checkbox 3'");
+  //           debugtalker.debug("click 'Checkbox 3'");
   //
   //           await menuItem.setCheck(!menuItem.checked);
-  //           debugPrint(
+  //           debugtalker.debug(
   //               "click name: ${menuItem.name} menuItemId: ${menuItem.menuItemId} label: ${menuItem.label} checked: ${menuItem.checked}");
   //         },
   //       ),
@@ -275,7 +274,7 @@ class _MyAppState extends State<MyApp> {
   //       label: 'Change Context Menu',
   //       image: getImagePath('app_icon'),
   //       onClicked: (menuItem) {
-  //         debugPrint("Change Context Menu");
+  //         debugtalker.debug("Change Context Menu");
   //
   //         _toogleMenu = !_toogleMenu;
   //         _systemTray.setContextMenu(_toogleMenu ? _menuMain : _menuSimple);
