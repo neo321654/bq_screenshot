@@ -51,7 +51,7 @@ mixin EditorEventsState<T extends StatefulWidget> on State<T> {
 
     bool showThumbnail = false,
     ui.Image? rawOriginalImage,
-    final ImageGeneratioConfigs? generatioConfigs,
+    final ImageGenerationConfigs? generatioConfigs,
   }) async {
 
     if (editedBytes != null) {

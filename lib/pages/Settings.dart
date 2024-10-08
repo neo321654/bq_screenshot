@@ -1,3 +1,6 @@
+import 'package:talker_flutter/talker_flutter.dart';
+
+import '../main.dart';
 import '/utils/ColorsUtil.dart';
 import '/utils/SettingsStorage.dart';
 // import 'package:flutterflow_ui/flutterflow_ui.dart';
@@ -80,11 +83,42 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           actions: [
             FFButtonWidget(
               onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => TalkerScreen(talker: talker),
+                    )
+                );
+              },
+              text: 'logScreen',
+              icon: const Icon(
+                Icons.logo_dev_sharp,
+                size: 15,
+              ),
+              options: FFButtonOptions(
+                height: 40,
+                padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                color: ColorsUtil.success,
+                textStyle: const TextStyle(
+                  fontFamily: 'Readex Pro',
+                  color: Colors.white,
+                  letterSpacing: 0,
+                ),
+                elevation: 3,
+                borderSide: const BorderSide(
+                  color: Colors.transparent,
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            FFButtonWidget(
+              onPressed: () {
                 _settingsStorage.saveSettings();
                 Navigator.pop(context);
               },
               text: 'Сохранить',
-              icon: Icon(
+              icon: const Icon(
                 Icons.save,
                 size: 15,
               ),
@@ -93,13 +127,13 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                 padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
                 iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                 color: ColorsUtil.success,
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                   fontFamily: 'Readex Pro',
                   color: Colors.white,
                   letterSpacing: 0,
                 ),
                 elevation: 3,
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Colors.transparent,
                   width: 1,
                 ),

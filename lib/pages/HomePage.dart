@@ -1,6 +1,9 @@
 import 'dart:io';
 
 // import 'flutter_flow_model.dart' as model;
+import 'package:talker_flutter/talker_flutter.dart';
+
+import '../main.dart';
 import '/models/flutter_flow_model.dart' as model;
 import 'package:flutter/services.dart';
 
@@ -344,25 +347,32 @@ class _HomePageWidgetState extends State<HomePageWidget>
   /// Редктор
   Widget _buildFileEditor(File file) {
     setRawImagePath(_lastCapturedData?.imagePath);
-    return ProImageEditor.file(
-      file,
-      callbacks: ProImageEditorCallbacks(
-        onImageEditingStarted: onImageEditingStarted,
-        onImageEditingComplete: onImageEditingComplete,
-        onCloseEditor: onCloseEditor,
+    return TalkerWrapper(
+      talker: talker,
+      options: const TalkerWrapperOptions(
+        enableErrorAlerts: true,
+        enableExceptionAlerts: true,
       ),
-      configs: ProImageEditorConfigs(
-          designMode: platformDesignMode,
-          customWidgets: ImageEditorCustomWidgets(
-            mainEditor: CustomWidgetsMainEditor(
-              appBar: (editor, rebuildStream) => editor.selectedLayerIndex < 0
-                  ? ReactiveCustomAppbar(
-                      stream: rebuildStream,
-                      builder: (_) =>
-                          _buildAppBar(editor, _lastCapturedData?.imagePath))
-                  : null,
-            ),
-          )),
+      child: ProImageEditor.file(
+        file,
+        callbacks: ProImageEditorCallbacks(
+          onImageEditingStarted: onImageEditingStarted,
+          onImageEditingComplete: onImageEditingComplete,
+          onCloseEditor: onCloseEditor,
+        ),
+        configs: ProImageEditorConfigs(
+            designMode: platformDesignMode,
+            customWidgets: ImageEditorCustomWidgets(
+              mainEditor: CustomWidgetsMainEditor(
+                appBar: (editor, rebuildStream) => editor.selectedLayerIndex < 0
+                    ? ReactiveCustomAppbar(
+                        stream: rebuildStream,
+                        builder: (_) =>
+                            _buildAppBar(editor, _lastCapturedData?.imagePath))
+                    : null,
+              ),
+            )),
+      ),
     );
   }
 
@@ -440,7 +450,12 @@ class _HomePageWidgetState extends State<HomePageWidget>
               File file = File(imagePath);
               Uint8List? bytes = await editor.captureEditorImage();
               file.writeAsBytesSync(bytes);
-              await uploadToS3(Settingstorage.ImageName, imagePath);
+
+              try {
+                await uploadToS3(Settingstorage.ImageName, imagePath);
+              } on Exception catch (e) {
+                talker.handle(e);
+              }
             }
             editor.doneEditing();
           },

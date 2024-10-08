@@ -2,11 +2,12 @@ import 'dart:async';
 import 'dart:io';
 // import 'dart:io';
 
-
 //import 'package:bq_screenshot/menu.dart';
 //import 'package:bq_screenshot/tray.dart';
 
 // import 'package:tray_manager/tray_manager.dart';
+
+import 'package:talker_flutter/talker_flutter.dart';
 
 import '/utils/functions.dart';
 
@@ -21,48 +22,59 @@ import 'package:window_manager/window_manager.dart';
 
 // import 'package:system_tray/system_tray.dart';
 
-
 // import 'package:bitsdojo_window/bitsdojo_window.dart';
 // import 'package:english_words/english_words.dart';
 // import 'package:system_tray/system_tray.dart';
 
 // import 'package:system_tray/system_tray.dart' ;
 
-
-
+final talker = TalkerFlutter.init();
 
 void main() async {
   checkDateReturn();
 
-  WidgetsFlutterBinding.ensureInitialized();
-  await hotKeyManager.unregisterAll();
+  runZonedGuarded(() async {
+    FlutterError.onError = (FlutterErrorDetails details) {
+      talker.error('Caught a Flutter error: ${details.exception}');
+    };
 
-  await windowManager.ensureInitialized();
+    WidgetsFlutterBinding.ensureInitialized();
 
-  WindowOptions windowOptions = const WindowOptions(
-    size: Size(800, 600),
-    center: true,
-    backgroundColor: Colors.transparent,
-    skipTaskbar: false,
-    titleBarStyle: TitleBarStyle.normal,
-  );
-  windowManager.waitUntilReadyToShow(windowOptions, () async {
-    await windowManager.show();
-    await windowManager.focus();
+    await hotKeyManager.unregisterAll();
+
+    await windowManager.ensureInitialized();
+
+    WindowOptions windowOptions = const WindowOptions(
+      size: Size(800, 600),
+      center: true,
+      backgroundColor: Colors.transparent,
+      skipTaskbar: false,
+      titleBarStyle: TitleBarStyle.normal,
+    );
+    windowManager.waitUntilReadyToShow(windowOptions, () async {
+      await windowManager.show();
+      await windowManager.focus();
+    });
+
+    runApp(TalkerWrapper(
+        talker: talker,
+        options: const TalkerWrapperOptions(
+          enableErrorAlerts: true,
+        ),
+        child: MyApp()));
+  }, (error, stackTrace) {
+    talker.error('Caught an error in zone: $error');
   });
-
-  runApp( MyApp());
 }
 
 class MyApp extends StatefulWidget {
-   MyApp({super.key});
+  MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-
   // final AppWindow _appWindow = AppWindow();
   // final SystemTray _systemTray = SystemTray();
   // final Menu _menuMain = Menu();
