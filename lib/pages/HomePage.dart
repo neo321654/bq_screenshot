@@ -57,7 +57,6 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
     windowManager.addListener(this);
 
-
     initTray();
     _init();
   }
@@ -79,13 +78,19 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
   void initTray() async {
     await trayManager.setIcon(
-      Platform.isWindows ? 'images/tray_icon_original.ico' : 'images/tray_icon_original.png',
+      Platform.isWindows
+          ? 'images/tray_icon_original.ico'
+          : 'images/tray_icon_original.png',
     );
 
     Menu menu = Menu(items: [
       MenuItem(
         key: 'window_hide',
         label: 'Скрыть',
+      ),
+      MenuItem(
+        key: 'window_show',
+        label: 'Развернуть',
       ),
       MenuItem.separator(),
       MenuItem(
@@ -306,7 +311,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
     String imagePath =
         '${settings.Settings.saveDirectoryPath}/${Settingstorage.ImageName}';
-        // '${settings.Settings.saveDirectoryPath}/Screenshot-1726466762983.png';
+    // '${settings.Settings.saveDirectoryPath}/Screenshot-1726466762983.png';
     //
     //  File? file1 = File(imagePath);
     //

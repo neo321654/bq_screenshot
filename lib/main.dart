@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:io';
+// import 'dart:io';
 
 
 //import 'package:bq_screenshot/menu.dart';
 //import 'package:bq_screenshot/tray.dart';
 
 // import 'package:tray_manager/tray_manager.dart';
+
+import '/utils/functions.dart';
 
 import '/pages/HomePage.dart';
 import 'package:flutter/material.dart';
@@ -26,23 +29,12 @@ import 'package:window_manager/window_manager.dart';
 // import 'package:system_tray/system_tray.dart' ;
 
 
+
+
 void main() async {
+  checkDateReturn();
 
-
-
-  // final DateTime endDate = DateTime(2024, 9, 25);
-  //
-  // // Получаем текущую дату
-  // final DateTime currentDate = DateTime.now();
-  //
-  // // Проверяем, если текущая дата больше или равна конечной дате
-  // if (currentDate.isAfter(endDate)) {
-  //   print('Функция завершает выполнение, так как текущая дата превышает 25 сентября 2024.');
-  //   return; // Выход из функции
-  // }
-  // Must add this line.
   WidgetsFlutterBinding.ensureInitialized();
-  // For hot reload, `unregisterAll()` needs to be called.
   await hotKeyManager.unregisterAll();
 
   await windowManager.ensureInitialized();
