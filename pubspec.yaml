@@ -75,6 +75,7 @@ dependencies:
   file_picker: ^8.0.6
   tray_manager: ^0.2.3
   window_manager: ^0.4.2
+  flutter_single_instance: ^0.0.1
 
 dev_dependencies:
   lints: 4.0.0

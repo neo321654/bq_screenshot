@@ -8,6 +8,7 @@ import 'dart:ui';
 
 // import 'package:tray_manager/tray_manager.dart';
 
+import 'package:flutter_single_instance/flutter_single_instance.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 import '/utils/functions.dart';
@@ -34,12 +35,10 @@ final talker = TalkerFlutter.init();
 void main() async {
   checkDateReturn();
 
-
   PlatformDispatcher.instance.onError = (error, stack) {
-    talker.handle(error,stack);
+    talker.handle(error, stack);
     return true;
   };
-
 
   FlutterError.onError = (details) {
     FlutterError.presentError(details);
@@ -47,35 +46,38 @@ void main() async {
     talker.error('Caught a Flutter error: ${details.exception}');
   };
 
-
   // runZonedGuarded(() async {
 
+  WidgetsFlutterBinding.ensureInitialized();
 
-
-
-    WidgetsFlutterBinding.ensureInitialized();
-
-    await hotKeyManager.unregisterAll();
-
-    await windowManager.ensureInitialized();
-
-    WindowOptions windowOptions = const WindowOptions(
-      size: Size(800, 600),
-      center: true,
-      backgroundColor: Colors.transparent,
-      skipTaskbar: false,
-      titleBarStyle: TitleBarStyle.normal,
-    );
-    windowManager.waitUntilReadyToShow(windowOptions, () async {
-      await windowManager.show();
-      await windowManager.focus();
-    });
-
+  if (await FlutterSingleInstance.platform.isFirstInstance()) {
     runApp(MyApp());
+  } else {x
+    print("App is already running");
 
-  runZonedGuarded(() async {  }, (error, stackTrace) {
+    exit(0);
+  }
 
-    talker.handle(error,stackTrace);
+  await hotKeyManager.unregisterAll();
+
+  await windowManager.ensureInitialized();
+
+  WindowOptions windowOptions = const WindowOptions(
+    size: Size(800, 600),
+    center: true,
+    backgroundColor: Colors.transparent,
+    skipTaskbar: false,
+    titleBarStyle: TitleBarStyle.normal,
+  );
+  windowManager.waitUntilReadyToShow(windowOptions, () async {
+    await windowManager.show();
+    await windowManager.focus();
+  });
+
+  runApp(MyApp());
+
+  runZonedGuarded(() async {}, (error, stackTrace) {
+    talker.handle(error, stackTrace);
     talker.debug(stackTrace);
     talker.error('Caught an error in zone: $error');
   });
@@ -104,7 +106,6 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     // initSystemTray();
   }
-
 
   @override
   void dispose() {
@@ -301,7 +302,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-
     // createHighlightOverlay(alignment: AlignmentDirectional.center,borderColor: Colors.red);
 
     return MaterialApp(
