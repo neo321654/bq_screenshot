@@ -136,6 +136,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
       // Set hotkey scope (default is HotKeyScope.system)
       scope: HotKeyScope.system, // Set as inapp-wide hotkey.
     );
+    //
 
     HotKey _hotKeyScreen = HotKey(
       key: PhysicalKeyboardKey.digit6,
