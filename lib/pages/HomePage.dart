@@ -56,12 +56,11 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
   var _settingsStorage;
 
-  late HotKey _hotKeyArea,
-      _hotKeyWindow,
-      _hotKeyScreen,
-      _hotKeyAreaNew,
-      _hotKeyWindowNew,
-      _hotKeyScreenNew;
+  late HotKey _hotKeyArea, _hotKeyWindow, _hotKeyScreen, _hotKeyAreaNew;
+
+  String _hotKeyAreaToolTip = '';
+  String _hotKeyWindowToolTip = '';
+  String _hotKeyScreenToolTip = '';
 
   HotKeyName hotKeyName = HotKeyName.empty;
 
@@ -138,6 +137,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
   }
 
   void registerHotKeys() async {
+
     _hotKeyArea = HotKey(
       key: PhysicalKeyboardKey.digit8,
       identifier: '8',
@@ -167,15 +167,23 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
     hotKeyManager.toString();
 
+    _hotKeyScreenToolTip = _hotKeyScreen.modifiers?.last.toString()??'';
+
     await hotKeyManager.register(_hotKeyScreen, keyDownHandler: (hotKey) {
       _handleClickCapture(CaptureMode.screen);
     });
 
+    _hotKeyAreaToolTip = _hotKeyArea.modifiers?.last.toString()??'';
+
     await hotKeyManager.register(_hotKeyArea, keyUpHandler: (hotKey) {
+
       _handleClickCapture(CaptureMode.region);
     });
 
+    _hotKeyWindowToolTip = _hotKeyWindow.modifiers?.last.toString()??'';
+
     await hotKeyManager.register(_hotKeyWindow, keyDownHandler: (hotKey) {
+
       _handleClickCapture(CaptureMode.window);
     });
   }
@@ -211,12 +219,15 @@ class _HomePageWidgetState extends State<HomePageWidget>
                 padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
                 child: Row(
                   children: [
-                    InkWell(
-                      child: Icon(Icons.settings),
-                      onTap: () {
-                        hotKeyName = HotKeyName.region;
-                        setState(() {});
-                      },
+                    Tooltip(
+                      message: 'Назначить hotkey',
+                      child: InkWell(
+                        child: Icon(Icons.settings),
+                        onTap: () {
+                          hotKeyName = HotKeyName.region;
+                          setState(() {});
+                        },
+                      ),
                     ),
                     FFButtonWidget(
                       onPressed: () {
@@ -253,12 +264,15 @@ class _HomePageWidgetState extends State<HomePageWidget>
                   padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
                   child: Row(
                     children: [
-                      InkWell(
-                        child: Icon(Icons.settings),
-                        onTap: () {
-                          hotKeyName = HotKeyName.window;
-                          setState(() {});
-                        },
+                      Tooltip(
+                        message: 'Назначить hotkey',
+                        child: InkWell(
+                          child: Icon(Icons.settings),
+                          onTap: () {
+                            hotKeyName = HotKeyName.window;
+                            setState(() {});
+                          },
+                        ),
                       ),
                       FFButtonWidget(
                         onPressed: () {
@@ -296,39 +310,49 @@ class _HomePageWidgetState extends State<HomePageWidget>
                   padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
                   child: Row(
                     children: [
-                      InkWell(
-                        child: Icon(Icons.settings),
-                        onTap: () {
-                          hotKeyName = HotKeyName.screen;
-                          setState(() {});
-                        },
-                      ),
-                      FFButtonWidget(
-                        onPressed: () {
-                          _handleClickCapture(CaptureMode.screen);
-                        },
-                        text: HotKeyName.screen.name,
-                        icon: Icon(
-                          Icons.desktop_windows_sharp,
-                          size: 15,
+                      Tooltip(
+                        message: 'Назначить hotkey',
+                        child: InkWell(
+                          child: Icon(Icons.settings),
+                          onTap: () {
+                            hotKeyName = HotKeyName.screen;
+                            setState(() {});
+                          },
                         ),
-                        options: FFButtonOptions(
-                          height: 40,
-                          padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                          iconPadding:
-                              EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                          color: ColorsUtil.success,
-                          textStyle: TextStyle(
-                            fontFamily: 'Readex Pro',
-                            color: Colors.white,
-                            letterSpacing: 0,
+                      ),
+                      Tooltip(
+
+                        // message: _hotKeyScreen.modifiers?.fold<String>(
+                        //     '', (previousValue, element) => previousValue + element.name),
+                        message: _hotKeyScreenToolTip,
+                        child: FFButtonWidget(
+                          onPressed: () {
+                            _handleClickCapture(CaptureMode.screen);
+                          },
+                          text: HotKeyName.screen.name,
+                          icon: Icon(
+                            Icons.desktop_windows_sharp,
+                            size: 15,
                           ),
-                          elevation: 3,
-                          borderSide: BorderSide(
-                            color: Colors.transparent,
-                            width: 1,
+                          options: FFButtonOptions(
+                            height: 40,
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                            iconPadding:
+                                EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                            color: ColorsUtil.success,
+                            textStyle: TextStyle(
+                              fontFamily: 'Readex Pro',
+                              color: Colors.white,
+                              letterSpacing: 0,
+                            ),
+                            elevation: 3,
+                            borderSide: BorderSide(
+                              color: Colors.transparent,
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
                           ),
-                          borderRadius: BorderRadius.circular(8),
                         ),
                       ),
                     ],
