@@ -307,7 +307,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                         onPressed: () {
                           _handleClickCapture(CaptureMode.screen);
                         },
-                        text: HotKeyName.region.name,
+                        text: HotKeyName.screen.name,
                         icon: Icon(
                           Icons.desktop_windows_sharp,
                           size: 15,
@@ -377,7 +377,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
             centerTitle: false,
             elevation: 2,
           ),
-          body: (hotKeyName != '')
+          body: (hotKeyName != HotKeyName.empty)
               ? Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -416,6 +416,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                   WidgetStateProperty.all<Color>(Colors.green)),
                           onPressed: () async {
                             await registerNewKey(hotKeyName, _hotKeyAreaNew);
+                            hotKeyName = HotKeyName.empty;
+                            setState(() {});
                           },
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
