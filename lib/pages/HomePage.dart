@@ -146,17 +146,20 @@ class _HomePageWidgetState extends State<HomePageWidget>
       scope: HotKeyScope.system, // Set as inapp-wide hotkey.
     );
 
+    hotKeyManager.toString();
 
-    await hotKeyManager.register(_hotKeyWindow, keyDownHandler: (hotKey) {
-      _handleClickCapture(CaptureMode.window);
-    });
-
-    await hotKeyManager.register(_hotKeyArea, keyDownHandler: (hotKey) {
-      _handleClickCapture(CaptureMode.region);
-    });
 
     await hotKeyManager.register(_hotKeyScreen, keyDownHandler: (hotKey) {
       _handleClickCapture(CaptureMode.screen);
+    });
+
+
+    await hotKeyManager.register(_hotKeyArea, keyUpHandler: (hotKey) {
+      _handleClickCapture(CaptureMode.region);
+    });
+
+    await hotKeyManager.register(_hotKeyWindow, keyDownHandler: (hotKey) {
+      _handleClickCapture(CaptureMode.window);
     });
   }
 

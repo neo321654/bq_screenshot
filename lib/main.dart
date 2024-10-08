@@ -51,6 +51,11 @@ void main() async {
 
       WidgetsFlutterBinding.ensureInitialized();
 
+      await hotKeyManager.unregisterAll();
+
+      await windowManager.ensureInitialized();
+
+
       if (await FlutterSingleInstance.platform.isFirstInstance()) {
         runApp(MyApp());
       } else {
@@ -60,9 +65,8 @@ void main() async {
 
 
 
-      await windowManager.ensureInitialized();
 
-      await hotKeyManager.unregisterAll();
+
 
       WindowOptions windowOptions = const WindowOptions(
         size: Size(800, 600),
