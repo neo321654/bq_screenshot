@@ -443,17 +443,16 @@ class _HomePageWidgetState extends State<HomePageWidget>
                               backgroundColor:
                                   WidgetStateProperty.all<Color>(Colors.green)),
                           onPressed: () async {
+
                             await registerNewKey(hotKeyName, _hotKeyAreaNew);
+
                             switch (hotKeyName) {
                               case HotKeyName.screen:
                                 _hotKeyScreenToolTip =
                                     makeStringTooltip(_hotKeyAreaNew);
-
                               case HotKeyName.region:
-                                // TODO: Handle this case.
                                 _hotKeyAreaToolTip =
                                     makeStringTooltip(_hotKeyAreaNew);
-
                               case HotKeyName.window:
                                 _hotKeyWindowToolTip =
                                     makeStringTooltip(_hotKeyAreaNew);
@@ -499,23 +498,34 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
   Future<void> registerNewKey(
       HotKeyName hotKeyName, HotKey hotKeyAreaNew) async {
+
+    HotKey hk = HotKey(
+      key: hotKeyAreaNew.key,
+      modifiers: hotKeyAreaNew.modifiers,
+      scope: HotKeyScope.system,
+
+    );
+
     switch (hotKeyName) {
       case HotKeyName.region:
         await hotKeyManager.unregister(_hotKeyArea);
 
-        await hotKeyManager.register(hotKeyAreaNew, keyUpHandler: (hotKey) {
+
+
+        await hotKeyManager.register(hk, keyUpHandler: (hotKey) {
           _handleClickCapture(CaptureMode.region);
         });
+
       case HotKeyName.window:
         await hotKeyManager.unregister(_hotKeyWindow);
 
-        await hotKeyManager.register(hotKeyAreaNew, keyUpHandler: (hotKey) {
+        await hotKeyManager.register(hk, keyUpHandler: (hotKey) {
           _handleClickCapture(CaptureMode.window);
         });
       case HotKeyName.screen:
         await hotKeyManager.unregister(_hotKeyScreen);
 
-        await hotKeyManager.register(hotKeyAreaNew, keyUpHandler: (hotKey) {
+        await hotKeyManager.register(hk, keyUpHandler: (hotKey) {
           _handleClickCapture(CaptureMode.screen);
         });
 
