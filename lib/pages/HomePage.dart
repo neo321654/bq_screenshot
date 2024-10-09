@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
+// import 'dart:nativewrappers/_internal/vm/lib/convert_patch.dart';
 
 // import 'flutter_flow_model.dart' as model;
 import 'package:talker_flutter/talker_flutter.dart';
@@ -73,6 +75,10 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
     _settingsStorage.loadSettings();
 
+    // loadSettings();
+
+
+
     registerHotKeys();
 
     trayManager.addListener(this);
@@ -136,14 +142,40 @@ class _HomePageWidgetState extends State<HomePageWidget>
     await trayManager.setContextMenu(menu);
   }
 
+  // Future<void> loadSettings() async {
+  //   Settingstorage data = await _settingsStorage.loadSettings();
+  //   _model.s3Endpoint?.text = data.Settings.s3_endPoint;
+  //   _model.s3AccessKey?.text = data.Settings.s3_accessKey;
+  //   _model.s3SecretKey?.text = data.Settings.s3_secretKey;
+  //   _model.s3Bucket?.text = data.Settings.s3_bucket;
+  //   _model.saveDirectoryPath?.text = data.Settings.saveDirectoryPath;
+  //   setState(() {});
+  // }
+
   void registerHotKeys() async {
-    _hotKeyArea = HotKey(
-      key: PhysicalKeyboardKey.digit8,
-      identifier: '8',
-      modifiers: [HotKeyModifier.alt],
-      // Set hotkey scope (default is HotKeyScope.system)
-      scope: HotKeyScope.system, // Set as inapp-wide hotkey.
-    );
+
+    Settingstorage data = await _settingsStorage.loadSettings();
+   var ar = data.Settings.hotKeyArea;
+
+   // var ar = _settingsStorage.Settings.hotKeyArea;
+   if (ar == null || ar.isEmpty) {
+     _hotKeyArea = HotKey(
+       key: PhysicalKeyboardKey.digit8,
+       identifier: '8',
+       modifiers: [HotKeyModifier.alt],
+       // Set hotkey scope (default is HotKeyScope.system)
+       scope: HotKeyScope.system, // Set as inapp-wide hotkey.
+     );
+
+   }else{
+
+     final json = jsonDecode(ar);
+     _hotKeyArea = HotKey.fromJson(json);
+   }
+
+
+
+
 
     _hotKeyWindow = HotKey(
       key: PhysicalKeyboardKey.digit7,
@@ -512,7 +544,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
         await hotKeyManager.unregister(_hotKeyArea);
 
         _hotKeyArea = hk;
-
+        _settingsStorage.Settings.hotKeyArea = jsonEncode(_hotKeyArea.toJson());
+        await _settingsStorage.saveSettings();
 
         await hotKeyManager.register(hk, keyUpHandler: (hotKey) {
           _handleClickCapture(CaptureMode.region);
@@ -525,6 +558,9 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
         _hotKeyWindow = hk;
 
+        _settingsStorage.Settings.hotKeyWindow = _hotKeyArea.toJson().toString();
+        await _settingsStorage.saveSettings();
+
         await hotKeyManager.register(hk, keyUpHandler: (hotKey) {
           _handleClickCapture(CaptureMode.window);
         });
@@ -535,6 +571,9 @@ class _HomePageWidgetState extends State<HomePageWidget>
         await hotKeyManager.unregister(_hotKeyScreen);
 
         _hotKeyScreen = hk;
+
+        _settingsStorage.Settings.hotKeyScreen = _hotKeyArea.toJson().toString();
+        await _settingsStorage.saveSettings();
 
         await hotKeyManager.register(hk, keyUpHandler: (hotKey) {
           _handleClickCapture(CaptureMode.screen);
