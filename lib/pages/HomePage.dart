@@ -137,7 +137,6 @@ class _HomePageWidgetState extends State<HomePageWidget>
   }
 
   void registerHotKeys() async {
-
     _hotKeyArea = HotKey(
       key: PhysicalKeyboardKey.digit8,
       identifier: '8',
@@ -167,23 +166,21 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
     hotKeyManager.toString();
 
-    _hotKeyScreenToolTip = _hotKeyScreen.modifiers?.last.toString()??'';
+    _hotKeyScreenToolTip = _hotKeyScreen.modifiers?.last.toString() ?? '';
 
     await hotKeyManager.register(_hotKeyScreen, keyDownHandler: (hotKey) {
       _handleClickCapture(CaptureMode.screen);
     });
 
-    _hotKeyAreaToolTip = _hotKeyArea.modifiers?.last.toString()??'';
+    _hotKeyAreaToolTip = _hotKeyArea.modifiers?.last.toString() ?? '';
 
     await hotKeyManager.register(_hotKeyArea, keyUpHandler: (hotKey) {
-
       _handleClickCapture(CaptureMode.region);
     });
 
-    _hotKeyWindowToolTip = _hotKeyWindow.modifiers?.last.toString()??'';
+    _hotKeyWindowToolTip = _hotKeyWindow.modifiers?.last.toString() ?? '';
 
     await hotKeyManager.register(_hotKeyWindow, keyDownHandler: (hotKey) {
-
       _handleClickCapture(CaptureMode.window);
     });
   }
@@ -229,58 +226,15 @@ class _HomePageWidgetState extends State<HomePageWidget>
                         },
                       ),
                     ),
-                    FFButtonWidget(
-                      onPressed: () {
-                        _handleClickCapture(CaptureMode.region);
-                      },
-                      text: HotKeyName.region.name,
-                      icon: Icon(
-                        Icons.crop,
-                        size: 15,
-                      ),
-                      options: FFButtonOptions(
-                        height: 40,
-                        padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                        iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                        color: ColorsUtil.success,
-                        textStyle: TextStyle(
-                          fontFamily: 'Readex Pro',
-                          color: Colors.white,
-                          letterSpacing: 0,
-                        ),
-                        elevation: 3,
-                        borderSide: BorderSide(
-                          color: Colors.transparent,
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              if (Platform.isMacOS)
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
-                  child: Row(
-                    children: [
-                      Tooltip(
-                        message: 'Назначить hotkey',
-                        child: InkWell(
-                          child: Icon(Icons.settings),
-                          onTap: () {
-                            hotKeyName = HotKeyName.window;
-                            setState(() {});
-                          },
-                        ),
-                      ),
-                      FFButtonWidget(
+                    Tooltip(
+                      message: _hotKeyAreaToolTip,
+                      child: FFButtonWidget(
                         onPressed: () {
-                          _handleClickCapture(CaptureMode.window);
+                          _handleClickCapture(CaptureMode.region);
                         },
-                        text: HotKeyName.window.name,
+                        text: HotKeyName.region.name,
                         icon: Icon(
-                          Icons.window,
+                          Icons.crop,
                           size: 15,
                         ),
                         options: FFButtonOptions(
@@ -302,6 +256,57 @@ class _HomePageWidgetState extends State<HomePageWidget>
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
+                    ),
+                  ],
+                ),
+              ),
+              if (Platform.isMacOS)
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
+                  child: Row(
+                    children: [
+                      Tooltip(
+                        message: 'Назначить hotkey',
+                        child: InkWell(
+                          child: Icon(Icons.settings),
+                          onTap: () {
+                            hotKeyName = HotKeyName.window;
+                            setState(() {});
+                          },
+                        ),
+                      ),
+                      Tooltip(
+                        message: _hotKeyWindowToolTip,
+                        child: FFButtonWidget(
+                          onPressed: () {
+                            _handleClickCapture(CaptureMode.window);
+                          },
+                          text: HotKeyName.window.name,
+                          icon: Icon(
+                            Icons.window,
+                            size: 15,
+                          ),
+                          options: FFButtonOptions(
+                            height: 40,
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                            iconPadding:
+                                EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                            color: ColorsUtil.success,
+                            textStyle: TextStyle(
+                              fontFamily: 'Readex Pro',
+                              color: Colors.white,
+                              letterSpacing: 0,
+                            ),
+                            elevation: 3,
+                            borderSide: BorderSide(
+                              color: Colors.transparent,
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -321,7 +326,6 @@ class _HomePageWidgetState extends State<HomePageWidget>
                         ),
                       ),
                       Tooltip(
-
                         // message: _hotKeyScreen.modifiers?.fold<String>(
                         //     '', (previousValue, element) => previousValue + element.name),
                         message: _hotKeyScreenToolTip,
@@ -442,20 +446,20 @@ class _HomePageWidgetState extends State<HomePageWidget>
                             await registerNewKey(hotKeyName, _hotKeyAreaNew);
                             switch (hotKeyName) {
                               case HotKeyName.screen:
-                            // _hotKeyScreen.modifiers?.fold<String>(
-                            //     '', (previousValue, element) => previousValue + element.name),
-                                _hotKeyScreenToolTip  = _hotKeyAreaNew.modifiers?.fold<String>(
-                                    '', (previousValue, element) => previousValue + element.name +"+")??'';
-                                _hotKeyScreenToolTip +=_hotKeyAreaNew.key.keyLabel??'';
+                                _hotKeyScreenToolTip =
+                                    makeStringTooltip(_hotKeyAreaNew);
 
                               case HotKeyName.region:
                                 // TODO: Handle this case.
-                              case HotKeyName.window:
-                                // TODO: Handle this case.
-                              case HotKeyName.empty:
-                                // TODO: Handle this case.
-                            }
+                                _hotKeyAreaToolTip =
+                                    makeStringTooltip(_hotKeyAreaNew);
 
+                              case HotKeyName.window:
+                                _hotKeyWindowToolTip =
+                                    makeStringTooltip(_hotKeyAreaNew);
+                              case HotKeyName.empty:
+                                break;
+                            }
 
                             hotKeyName = HotKeyName.empty;
                             setState(() {});
@@ -482,6 +486,15 @@ class _HomePageWidgetState extends State<HomePageWidget>
         ),
       ),
     );
+  }
+
+  String makeStringTooltip(HotKey _hotKeyAreaNew) {
+    String _hotKeyScreenToolTip = _hotKeyAreaNew.modifiers?.fold<String>('',
+            (previousValue, element) => previousValue + element.name + "+") ??
+        '';
+    _hotKeyScreenToolTip += _hotKeyAreaNew.key.keyLabel ?? '';
+
+    return _hotKeyScreenToolTip;
   }
 
   Future<void> registerNewKey(
