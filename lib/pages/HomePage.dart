@@ -506,6 +506,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
     );
 
+
     switch (hotKeyName) {
       case HotKeyName.region:
         await hotKeyManager.unregister(_hotKeyArea);
