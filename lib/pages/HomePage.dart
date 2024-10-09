@@ -77,8 +77,6 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
     // loadSettings();
 
-
-
     registerHotKeys();
 
     trayManager.addListener(this);
@@ -142,79 +140,125 @@ class _HomePageWidgetState extends State<HomePageWidget>
     await trayManager.setContextMenu(menu);
   }
 
-  // Future<void> loadSettings() async {
-  //   Settingstorage data = await _settingsStorage.loadSettings();
-  //   _model.s3Endpoint?.text = data.Settings.s3_endPoint;
-  //   _model.s3AccessKey?.text = data.Settings.s3_accessKey;
-  //   _model.s3SecretKey?.text = data.Settings.s3_secretKey;
-  //   _model.s3Bucket?.text = data.Settings.s3_bucket;
-  //   _model.saveDirectoryPath?.text = data.Settings.saveDirectoryPath;
-  //   setState(() {});
-  // }
 
   void registerHotKeys() async {
-
     Settingstorage data = await _settingsStorage.loadSettings();
-   var ar = data.Settings.hotKeyArea;
 
-   // var ar = _settingsStorage.Settings.hotKeyArea;
-   if (ar == null || ar.isEmpty) {
-     _hotKeyArea = HotKey(
-       key: PhysicalKeyboardKey.digit8,
-       identifier: '8',
-       modifiers: [HotKeyModifier.alt],
-       // Set hotkey scope (default is HotKeyScope.system)
-       scope: HotKeyScope.system, // Set as inapp-wide hotkey.
-     );
-
-   }else{
-
-     final json = jsonDecode(ar);
-     _hotKeyArea = HotKey.fromJson(json);
-   }
-
-
-
-
-
-    _hotKeyWindow = HotKey(
-      key: PhysicalKeyboardKey.digit7,
-      modifiers: [HotKeyModifier.alt],
-      identifier: '7',
-
-      // Set hotkey scope (default is HotKeyScope.system)
-      scope: HotKeyScope.system, // Set as inapp-wide hotkey.
-    );
-    //
-
-    _hotKeyScreen = HotKey(
-      key: PhysicalKeyboardKey.digit6,
-      modifiers: [HotKeyModifier.alt],
-      identifier: '6',
-
-      // Set hotkey scope (default is HotKeyScope.system)
-      scope: HotKeyScope.system, // Set as inapp-wide hotkey.
-    );
-
-    hotKeyManager.toString();
-
-
+    getHotKeyFromSettingsOr(data);
 
     await hotKeyManager.register(_hotKeyScreen, keyDownHandler: (hotKey) {
       _handleClickCapture(CaptureMode.screen);
     });
 
-
-
     await hotKeyManager.register(_hotKeyArea, keyUpHandler: (hotKey) {
       _handleClickCapture(CaptureMode.region);
     });
 
-
-
     await hotKeyManager.register(_hotKeyWindow, keyDownHandler: (hotKey) {
       _handleClickCapture(CaptureMode.window);
     });
+  }
+
+  // void getHotKeyFromSettingsOr(Settingstorage data) {
+  //   var ar = data.Settings.hotKeyArea;
+  //
+  //   if (ar == null || ar.isEmpty) {
+  //     _hotKeyArea = HotKey(
+  //       key: PhysicalKeyboardKey.digit8,
+  //       identifier: '8',
+  //       modifiers: [HotKeyModifier.alt],
+  //       // Set hotkey scope (default is HotKeyScope.system)
+  //       scope: HotKeyScope.system, // Set as inapp-wide hotkey.
+  //     );
+  //
+  //   }else{
+  //
+  //     final json = jsonDecode(ar);
+  //     _hotKeyArea = HotKey.fromJson(json);
+  //   }
+  //
+  //   var ar2 = data.Settings.hotKeyWindow;
+  //
+  //   if (ar2 == null || ar2.isEmpty) {
+  //     _hotKeyWindow = HotKey(
+  //       key: PhysicalKeyboardKey.digit7,
+  //       modifiers: [HotKeyModifier.alt],
+  //       identifier: '7',
+  //       scope: HotKeyScope.system,
+  //     );
+  //   }else{
+  //     final json = jsonDecode(ar2);
+  //     _hotKeyWindow = HotKey.fromJson(json);
+  //   }
+  //
+  //
+  //   var ar3 = data.Settings.hotKeyScreen;
+  //
+  //   if (ar3 == null || ar3.isEmpty) {
+  //
+  //     _hotKeyScreen = HotKey(
+  //       key: PhysicalKeyboardKey.digit6,
+  //       modifiers: [HotKeyModifier.alt],
+  //       identifier: '6',
+  //       scope: HotKeyScope.system,
+  //     );
+  //
+  //   }else{
+  //     final json = jsonDecode(ar3);
+  //     _hotKeyScreen = HotKey.fromJson(json);
+  //   }
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  // }
+
+  void getHotKeyFromSettingsOr(Settingstorage data) {
+
+
+
+    _hotKeyArea = _getHotKey(data.Settings.hotKeyArea,
+        PhysicalKeyboardKey.digit8, '8', [HotKeyModifier.alt]);
+
+    _hotKeyWindow = _getHotKey(data.Settings.hotKeyWindow,
+        PhysicalKeyboardKey.digit7, '7', [HotKeyModifier.alt]);
+
+    _hotKeyScreen = _getHotKey(data.Settings.hotKeyScreen,
+        PhysicalKeyboardKey.digit6, '6', [HotKeyModifier.alt]);
+
+
+        _hotKeyScreenToolTip =
+            makeStringTooltip(_hotKeyScreen);
+
+        _hotKeyAreaToolTip =
+            makeStringTooltip(_hotKeyArea);
+
+        _hotKeyWindowToolTip =
+            makeStringTooltip(_hotKeyWindow);
+
+        setState(() {
+
+        });
+
+  }
+
+  HotKey _getHotKey(String? hotKeyData, PhysicalKeyboardKey defaultKey,
+      String identifier, List<HotKeyModifier> modifiers) {
+    if (hotKeyData == null || hotKeyData.isEmpty) {
+      return HotKey(
+        key: defaultKey,
+        identifier: identifier,
+        modifiers: modifiers,
+        scope: HotKeyScope.system,
+      );
+    } else {
+      final json = jsonDecode(hotKeyData);
+      return HotKey.fromJson(json);
+    }
   }
 
   @override
@@ -475,7 +519,6 @@ class _HomePageWidgetState extends State<HomePageWidget>
                               backgroundColor:
                                   WidgetStateProperty.all<Color>(Colors.green)),
                           onPressed: () async {
-
                             await registerNewKey(hotKeyName, _hotKeyAreaNew);
 
                             switch (hotKeyName) {
@@ -530,14 +573,11 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
   Future<void> registerNewKey(
       HotKeyName hotKeyName, HotKey hotKeyAreaNew) async {
-
     HotKey hk = HotKey(
       key: hotKeyAreaNew.key,
       modifiers: hotKeyAreaNew.modifiers,
       scope: HotKeyScope.system,
-
     );
-
 
     switch (hotKeyName) {
       case HotKeyName.region:
@@ -551,28 +591,28 @@ class _HomePageWidgetState extends State<HomePageWidget>
           _handleClickCapture(CaptureMode.region);
         });
 
-        _settingsStorage.Settings.s3_endPoint ='';
+        _settingsStorage.Settings.s3_endPoint = '';
 
       case HotKeyName.window:
         await hotKeyManager.unregister(_hotKeyWindow);
 
         _hotKeyWindow = hk;
 
-        _settingsStorage.Settings.hotKeyWindow = _hotKeyArea.toJson().toString();
+        _settingsStorage.Settings.hotKeyWindow =
+            jsonEncode(_hotKeyWindow.toJson());
+
         await _settingsStorage.saveSettings();
 
         await hotKeyManager.register(hk, keyUpHandler: (hotKey) {
           _handleClickCapture(CaptureMode.window);
         });
       case HotKeyName.screen:
-
-
-
         await hotKeyManager.unregister(_hotKeyScreen);
 
         _hotKeyScreen = hk;
 
-        _settingsStorage.Settings.hotKeyScreen = _hotKeyArea.toJson().toString();
+        _settingsStorage.Settings.hotKeyScreen =
+            jsonEncode(_hotKeyScreen.toJson());
         await _settingsStorage.saveSettings();
 
         await hotKeyManager.register(hk, keyUpHandler: (hotKey) {
