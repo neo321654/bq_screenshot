@@ -511,20 +511,30 @@ class _HomePageWidgetState extends State<HomePageWidget>
       case HotKeyName.region:
         await hotKeyManager.unregister(_hotKeyArea);
 
+        _hotKeyArea = hk;
 
 
         await hotKeyManager.register(hk, keyUpHandler: (hotKey) {
           _handleClickCapture(CaptureMode.region);
         });
 
+        _settingsStorage.Settings.s3_endPoint ='';
+
       case HotKeyName.window:
         await hotKeyManager.unregister(_hotKeyWindow);
+
+        _hotKeyWindow = hk;
 
         await hotKeyManager.register(hk, keyUpHandler: (hotKey) {
           _handleClickCapture(CaptureMode.window);
         });
       case HotKeyName.screen:
+
+
+
         await hotKeyManager.unregister(_hotKeyScreen);
+
+        _hotKeyScreen = hk;
 
         await hotKeyManager.register(hk, keyUpHandler: (hotKey) {
           _handleClickCapture(CaptureMode.screen);
