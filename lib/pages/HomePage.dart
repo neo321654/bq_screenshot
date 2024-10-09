@@ -58,9 +58,9 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
   late HotKey _hotKeyArea, _hotKeyWindow, _hotKeyScreen, _hotKeyAreaNew;
 
-  String _hotKeyAreaToolTip = '';
-  String _hotKeyWindowToolTip = '';
-  String _hotKeyScreenToolTip = '';
+  String _hotKeyAreaToolTip = 'alt + 8';
+  String _hotKeyWindowToolTip = 'alt + 7';
+  String _hotKeyScreenToolTip = 'alt + 6';
 
   HotKeyName hotKeyName = HotKeyName.empty;
 
@@ -166,19 +166,19 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
     hotKeyManager.toString();
 
-    _hotKeyScreenToolTip = _hotKeyScreen.modifiers?.last.toString() ?? '';
+
 
     await hotKeyManager.register(_hotKeyScreen, keyDownHandler: (hotKey) {
       _handleClickCapture(CaptureMode.screen);
     });
 
-    _hotKeyAreaToolTip = _hotKeyArea.modifiers?.last.toString() ?? '';
+
 
     await hotKeyManager.register(_hotKeyArea, keyUpHandler: (hotKey) {
       _handleClickCapture(CaptureMode.region);
     });
 
-    _hotKeyWindowToolTip = _hotKeyWindow.modifiers?.last.toString() ?? '';
+
 
     await hotKeyManager.register(_hotKeyWindow, keyDownHandler: (hotKey) {
       _handleClickCapture(CaptureMode.window);
