@@ -115,7 +115,14 @@ Future<String?> checkS3Connection() async {
     // talker.debug("minio.sessionToken = ${minio.sessionToken}");
     var listBuckets;
     // try {
-      listBuckets = await minio.listBuckets();
+
+       listBuckets = await minio.listBuckets();
+
+      bool isBucketExist = await minio.bucketExists(_settings.Settings.s3_bucket);
+
+      if(!isBucketExist){
+        throw 'Error, check your settings';
+      }
     // } catch (e) {
     //     talker.handle(e);
     // }
