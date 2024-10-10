@@ -82,9 +82,10 @@ class _HomePageWidgetState extends State<HomePageWidget>
     trayManager.addListener(this);
 
     windowManager.addListener(this);
+    _init();
 
     initTray();
-    _init();
+
   }
 
   void _init() async {
@@ -626,6 +627,10 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
   /// Событие создания скриншота
   Future<void> _handleClickCapture(CaptureMode mode) async {
+
+
+
+
     Settingstorage settings = await Settingstorage().loadSettings();
 
     Settingstorage.ImageName =
@@ -642,12 +647,15 @@ class _HomePageWidgetState extends State<HomePageWidget>
     //
     // file1 = null;
 
+
     _lastCapturedData = await screenCapturer.capture(
       mode: mode,
       imagePath: imagePath,
       copyToClipboard: true,
       silent: false,
     );
+
+
 
     if (_lastCapturedData != null) {
       File file = File(_lastCapturedData!.imagePath!);
@@ -660,20 +668,39 @@ class _HomePageWidgetState extends State<HomePageWidget>
       // ignore: avoid_print
       talker.debug('User canceled capture');
     }
+
+
     setState(() {});
   }
 
   /// Редктор
   Widget _buildFileEditor(File file) {
     setRawImagePath(_lastCapturedData?.imagePath);
+
+    windowManager.show();
+    windowManager.focus();
+
     return ProImageEditor.file(
+
       file,
       callbacks: ProImageEditorCallbacks(
-        onImageEditingStarted: onImageEditingStarted,
+
+        onThumbnailGenerated: (v,m){
+
+
+          return Future.value();
+        },
+        onImageEditingStarted: (){
+          onImageEditingStarted();
+
+
+
+        },
         onImageEditingComplete: onImageEditingComplete,
         onCloseEditor: onCloseEditor,
       ),
       configs: ProImageEditorConfigs(
+
           designMode: platformDesignMode,
           customWidgets: ImageEditorCustomWidgets(
             mainEditor: CustomWidgetsMainEditor(
@@ -816,8 +843,11 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
   @override
   void onWindowClose() async {
+
     bool _isPreventClose = await windowManager.isPreventClose();
+
     if (_isPreventClose) {
+
       windowManager.hide();
     }
   }

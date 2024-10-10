@@ -56,12 +56,7 @@ void main() async {
       await windowManager.ensureInitialized();
 
 
-      if (await FlutterSingleInstance.platform.isFirstInstance()) {
-        runApp(MyApp());
-      } else {
-        talker.debug("App is already running");
-        exit(0);
-      }
+
 
 
 
@@ -74,13 +69,23 @@ void main() async {
         backgroundColor: Colors.transparent,
         skipTaskbar: false,
         titleBarStyle: TitleBarStyle.normal,
+        windowButtonVisibility: true,
       );
+
+
       windowManager.waitUntilReadyToShow(windowOptions, () async {
         await windowManager.show();
         await windowManager.focus();
+        // windowManager.
       });
 
-      runApp(MyApp());
+
+      if (await FlutterSingleInstance.platform.isFirstInstance()) {
+        runApp(MyApp());
+      } else {
+        talker.debug("App is already running");
+        exit(0);
+      }
 
       // runZonedGuarded(() async {}
     },
