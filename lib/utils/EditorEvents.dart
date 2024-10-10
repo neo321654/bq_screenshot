@@ -122,5 +122,7 @@ Future<String?> checkS3Connection() async {
 
     talker.debug("listBuckets = $listBuckets");
     return listBuckets.toString();
+  }else{
+    throw 'Error, check your settings';
   }
 }
