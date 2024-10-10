@@ -272,6 +272,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
         talker: talker,
         options: TalkerWrapperOptions(
           enableErrorAlerts: true,
+          enableExceptionAlerts: true
         ),
         child: Scaffold(
           key: scaffoldKey,
@@ -792,8 +793,17 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
               try {
                 await uploadToS3(Settingstorage.ImageName, imagePath);
-              } on Exception catch (e) {
+              } catch (e) {
+
                 talker.handle(e);
+              Future.delayed(Duration.zero,(){
+                throw TalkerException(Exception(e));
+
+              });
+
+
+
+
               }
             }
             editor.doneEditing();

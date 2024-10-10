@@ -117,6 +117,10 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               ),
               FFButtonWidget(
                 onPressed: () async {
+                  await _settingsStorage.saveSettings();
+
+
+
                   String buck = '';
                   try {
                     buck = await checkS3Connection() ?? '';
@@ -125,33 +129,40 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                     // talker.error(e);
                   }
 
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    backgroundColor: Colors.transparent,
-                    elevation: 0,
-                    content: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Colors.green),
-                      // color: Colors.green,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          children: [
-                            Text(
-                              'Connection OK! ',
-                              textAlign: TextAlign.center,
-                            ),
-                            Text(
-                              buck,
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
+                  if(buck==''){
+                    throw TalkerException(Exception('Error, bucket is empty'));
+
+                  }else{
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      content: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.green),
+                        // color: Colors.green,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            children: [
+                              const Text(
+                                'Connection OK! ',
+                                textAlign: TextAlign.center,
+                              ),
+                              Text(
+                                buck,
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    duration: Duration(seconds: 3),
-                    // padding: EdgeInsets.symmetric(horizontal: 10,vertical: 4),
-                  ));
+                      duration: Duration(seconds: 3),
+                      // padding: EdgeInsets.symmetric(horizontal: 10,vertical: 4),
+                    ));
+
+                  }
+
 
                   // throw TalkerException(Exception('Ok'));
 
