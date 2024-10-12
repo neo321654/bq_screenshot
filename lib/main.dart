@@ -33,7 +33,7 @@ import 'package:window_manager/window_manager.dart';
 final talker = TalkerFlutter.init();
 
 void main() async {
-  checkDateReturn();
+  // checkDateReturn();
   runZonedGuarded(
     () async {
       PlatformDispatcher.instance.onError = (error, stack) {
@@ -80,12 +80,12 @@ void main() async {
       });
 
 
-      if (await FlutterSingleInstance.platform.isFirstInstance()) {
+      // if (await FlutterSingleInstance.platform.isFirstInstance()) {
         runApp(MyApp());
-      } else {
-        talker.debug("App is already running");
-        exit(0);
-      }
+      // } else {
+      //   talker.debug("App is already running");
+      //   exit(0);
+      // }
 
       // runZonedGuarded(() async {}
     },
