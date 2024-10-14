@@ -605,7 +605,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
         });
 
-        _settingsStorage.Settings.s3_endPoint = '';
+        // _settingsStorage.Settings.s3_endPoint = '';
 
       case HotKeyName.window:
         await hotKeyManager.unregister(_hotKeyWindow);

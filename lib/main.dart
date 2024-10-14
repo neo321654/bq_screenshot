@@ -84,12 +84,13 @@ void main() async {
       });
 
 
-      // if (await FlutterSingleInstance.platform.isFirstInstance()) {
+      if (await FlutterSingleInstance.platform.isFirstInstance()) {
         runApp(MyApp());
-      // } else {
-      //   talker.debug("App is already running");
-      //   exit(0);
-      // }
+      } else {
+        talker.debug("App is already running");
+
+        exit(0);
+      }
 
       runZonedGuarded(() async {},
     // },
