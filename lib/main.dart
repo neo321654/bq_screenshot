@@ -35,12 +35,15 @@ final talker = TalkerFlutter.init();
 void main() async {
   // checkDateReturn();
   //q
-  runZonedGuarded(
-    () async {
-      PlatformDispatcher.instance.onError = (error, stack) {
-        talker.handle(error, stack);
-        return true;
-      };
+
+  PlatformDispatcher.instance.onError = (error, stack) {
+    talker.handle(error, stack);
+    return true;
+  };
+
+  // runZonedGuarded(
+  //   () async {
+
 
       FlutterError.onError = (details) {
         FlutterError.presentError(details);
@@ -88,8 +91,8 @@ void main() async {
       //   exit(0);
       // }
 
-      // runZonedGuarded(() async {}
-    },
+      runZonedGuarded(() async {},
+    // },
     (error, stackTrace) {
       talker.handle(error, stackTrace);
       talker.debug(stackTrace);
